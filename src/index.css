@@ -155,8 +155,16 @@
 
 body {
   background-color: #fbfedb;
-  font-family: "Poppins", sans-serif;
 }
+
+
+
+*{
+  font-family: "Poppins";
+
+}
+
+
 
 .table-item {
   font-family: "Poppins";

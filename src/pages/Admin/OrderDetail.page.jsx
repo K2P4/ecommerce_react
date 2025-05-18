@@ -13,6 +13,7 @@ import {
 
 const OrderDetailPage = () => {
   const { id } = useParams();
+  
   const [openForm, setOpenForm] = useState(false);
   const [openInvoice, setOpenInvoice] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -139,7 +140,10 @@ const OrderDetailPage = () => {
         </div>
       </div>
 
-     <ProductTableComponent products={data?.order?.items} status={data?.order?.status} />
+      <ProductTableComponent
+        products={data?.order?.items}
+        status={data?.order?.status}
+      />
     </div>
   );
 };

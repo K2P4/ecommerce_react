@@ -23,6 +23,7 @@ import {
   useDeleteOrderMutation,
   useUpdateOrderMutation,
 } from "../../store/services/endpoints/order.endpoint";
+import { useUpdateInvoiceMutation } from "../../store/services/endpoints/invoice.endpoint";
 
 const OrderTableComponent = ({
   orders,
@@ -36,12 +37,16 @@ const OrderTableComponent = ({
   const [transitionImage, setImage] = useState(null);
   const [success, setSuccess] = useState(false);
   const [verifyId, setVerifyId] = useState(null);
+  const [invoiceId, setInvoiceId] = useState(null);
   const [updateOrder] = useUpdateOrderMutation();
+  const [updateInvoice] = useUpdateInvoiceMutation();
   const [deleteOrder] = useDeleteOrderMutation();
 
   const TimeFormatter = (time) => {
     return moment(time).format("DD.MM.YYYY");
   };
+
+  
 
   const handleDelete = async (id) => {
     Swal.fire({
@@ -64,23 +69,27 @@ const OrderTableComponent = ({
     });
   };
 
-  console.log("orders", orders);
 
-  const handleTransition = (id, transitionImage) => {
+  const handleTransition = (orderId, transitionImage, invoiceID) => {
     setOpen(true);
     setImage(transitionImage);
-    setVerifyId(id);
+    setVerifyId(orderId);
+    console.log('invoice', invoiceID);
+    setInvoiceId(invoiceID);
   };
 
   const updateStatus = async () => {
-    const formData = {
-      status: 1,
-      payDate: new Date().toISOString().split("T")[0],
-    };
-    const response = await updateOrder({
+    const orderRes = await updateOrder({
       id: verifyId,
-      formData: formData,
+      formData: { status: 1 },
     });
+
+    const invoiceRes = await updateInvoice({
+      id: invoiceId,
+      formData: { payDate: new Date().toISOString().split("T")[0] },
+    })
+
+    console.log("rs", orderRes, invoiceRes);
     setSuccess(true);
     setOpen(false);
   };
@@ -125,8 +134,7 @@ const OrderTableComponent = ({
   };
 
   const getStatusClasses = (status) =>
-    `px-2 py-1 duration-500 rounded-xl  w-[85px]  inline-block  hover:cursor-pointer text-center mx-auto text-xs ${
-      statusClassMap[status] || statusClassMap[3]
+    `px-2 py-1 duration-500 rounded-xl  w-[85px]  inline-block  hover:cursor-pointer text-center mx-auto text-xs ${statusClassMap[status] || statusClassMap[3]
     }`;
 
   const handleClose = () => {
@@ -282,6 +290,7 @@ const OrderTableComponent = ({
               </TableRow>
             ) : orders?.length > 0 ? (
               orders?.map((order, index) => (
+
                 <TableRow
                   sx={{ height: "40px" }}
                   className="bg-gray-50"
@@ -333,7 +342,7 @@ const OrderTableComponent = ({
                     {order.status == 0 ? (
                       <IconButton
                         onClick={() =>
-                          handleTransition(order._id, order.transitionRecord)
+                          handleTransition(order._id, order.transitionRecord, order?.invoiceId?._id)
                         }
                         color="warning"
                       >

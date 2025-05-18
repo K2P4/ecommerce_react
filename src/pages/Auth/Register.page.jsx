@@ -60,18 +60,12 @@ const RegisterPage = () => {
   });
 
   const handleSubmit = async (value) => {
-    try {
-      const response = await registerFun({ ...value, isAdmin: 1 });
-      if (response?.data.success) {
-        nav("/login");
-        setRegister(true);
-      } else {
-        setError(response.data.message || "Login failed");
-        console.log("unsuccessful login", response);
-      }
-    } catch (error) {
-      console.log("Caught error", error);
-      setError(error.response?.data?.message);
+    const response = await registerFun({ ...value, isAdmin: 1 });
+    if (response?.data && response?.data.success) {
+      nav("/login");
+      setRegister(true);
+    } else {
+      setError(response.error.data.message);
     }
   };
 

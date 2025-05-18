@@ -52,22 +52,16 @@ const LoginPage = () => {
   });
 
   const handleSubmit = async (value) => {
-    try {
-      const response = await loginFun({ ...value, isAdmin: 1 });
+    const response = await loginFun({ ...value, isAdmin: 1 });
 
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
+    if (response?.data && response?.data.success) {
+      localStorage.setItem("token", response.data.token);
 
-        nav("/admin/dashboard");
+      nav("/admin/dashboard");
 
-        setLogin(true);
-      } else {
-        setError(response.data.message || "Login failed");
-        console.log("unsuccessful login", response);
-      }
-    } catch (error) {
-      console.log("Caught error", error);
-      setError(error.response?.data?.message || "Invalid credentials");
+      setLogin(true);
+    } else {
+      setError(response.error.data.message);
     }
   };
 

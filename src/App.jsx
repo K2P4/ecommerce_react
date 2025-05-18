@@ -9,6 +9,7 @@ import {
   ClientRegisterPage,
   DashboardPage,
   HomePage,
+  InvoiceDetailPage,
   InvoicesPage,
   LoginPage,
   OrderCurrentPage,
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="order/history" element={<OrderHistoryPage />} />
             <Route path="order/:id" element={<OrderDetailPage />} />
             <Route path="invoices" element={<InvoicesPage />} />
+            <Route path="invoice/:id" element={<InvoiceDetailPage />} />
           </Route>
         </Route>
 

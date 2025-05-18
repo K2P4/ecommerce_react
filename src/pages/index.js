@@ -3,9 +3,9 @@ export { default as DashboardPage } from "./Admin/Dashboard.page";
 export { default as StockPage } from "./Admin/Stock.page";
 export { default as CategoryPage } from "./Admin/Category.page";
 export { default as InvoicesPage } from "./Admin/Invoices.page";
+export { default as InvoiceDetailPage } from "./Admin/InvoiceDetail.page";
 export { default as ProfilePage } from "./Admin/Profile.page";
 export { default as StockDetailPage } from "./Admin/StockDetail.page";
-
 export { default as OrderDetailPage } from "./Admin/OrderDetail.page";
 export { default as OrderHistoryPage } from "./Admin/OrderHistory.page";
 

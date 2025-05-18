@@ -11,7 +11,9 @@ import {
   CircularProgress,
   Dialog,
 } from "@mui/material";
+import { saveAs } from "file-saver";
 import DownloadIcon from "@mui/icons-material/Download";
+import { useDownloadInvoiceMutation } from "../../store/services/endpoints/order.endpoint";
 
 import moment from "moment";
 
@@ -25,10 +27,12 @@ const InvoiceTableComponent = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const [downloadFun, { error }] = useDownloadInvoiceMutation();
   const TimeFormatter = (time) => {
     return moment(time).format("DD.MM.YYYY");
   };
+
+  console.log("invoices", invoices);
 
   const calculateTax = (items, delivery) => {
     const calculateSubTotal = items?.reduce((total, item) => {
@@ -54,6 +58,18 @@ const InvoiceTableComponent = ({
     setOpen(false);
   };
 
+  const handleDownloadInvoice = async (orderId, name, invNo) => {
+    try {
+      const id = Number(orderId);
+      const pdfBlob = await downloadFun(orderId).unwrap();
+
+      console.log("pdfblog", pdfBlob);
+      saveAs(pdfBlob, `${name}_${invNo}.pdf`);
+    } catch (err) {
+      console.error("Error downloading invoice:", err);
+    }
+  };
+
   return (
     <div>
       <TableContainer
@@ -61,7 +77,7 @@ const InvoiceTableComponent = ({
         sx={{
           maxWidth: "100%",
           margin: "auto",
-          marginTop: 3,
+          marginTop: 0,
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)",
           borderRadius: "10px",
         }}
@@ -200,10 +216,10 @@ const InvoiceTableComponent = ({
                   </TableCell>
                   <TableCell className="   " sx={{ fontFamily: "Poppins" }}>
                     <a
-                      href={`/admin/invoice/${invoice._id}`}
+                      href={`/admin/invoice/${invoice?._id}`}
                       className="text-blue-500 underline"
                     >
-                      {invoice?.invoiceNumber}
+                      {invoice?.invoiceId?.invoiceNumber}
                     </a>
                   </TableCell>
                   <TableCell sx={{ fontFamily: "Poppins" }}>
@@ -214,7 +230,7 @@ const InvoiceTableComponent = ({
                   </TableCell>
 
                   <TableCell sx={{ fontFamily: "Poppins" }}>
-                    {invoice?.payDate !== null ? (
+                    {invoice?.invoiceId?.payDate !== null ? (
                       <span
                         className={`px-2 py-1 duration-500 rounded-xl  w-[85px]  inline-block  hover:cursor-pointer text-center mx-auto text-xs bg-emerald-400 text-emerald-200 hover:bg-emerald-500`}
                       >
@@ -232,7 +248,9 @@ const InvoiceTableComponent = ({
                   <TableCell
                     sx={{ fontFamily: "Poppins", textTransform: "capitalize" }}
                   >
-                    {TimeFormatter(invoice?.payDate)}
+                    {invoice?.invoiceId?.payDate
+                      ? TimeFormatter(invoice?.invoiceId?.payDate)
+                      : "Undone"}
                   </TableCell>
                   <TableCell sx={{ fontFamily: "Poppins" }}>
                     {invoice?.deliveryType == 0 ? 3000 : 5000}
@@ -251,7 +269,15 @@ const InvoiceTableComponent = ({
 
                   <TableCell sx={{ fontFamily: "Poppins" }}>
                     <IconButton color="primary">
-                      <DownloadIcon />
+                      <DownloadIcon
+                        onClick={() =>
+                          handleDownloadInvoice(
+                            invoice?._id,
+                            invoice?.name,
+                            invoice?.invoiceNumber
+                          )
+                        }
+                      />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -299,10 +325,13 @@ const InvoiceTableComponent = ({
           </div>
           <div className="flex items-center gap-2">
             <button className=" bg-gray-50 flex items-center gap-1 text-md   px-3 py-2  rounded-lg shadow-md text-gray-500 ">
-              Total Amount : <span className="font-medium ">{ordersData?.allTotalAmount.toLocaleString()} MMK</span>
+              Total Amount :{" "}
+              <span className="font-medium ">
+                {ordersData?.allTotalAmount.toLocaleString()} MMK
+              </span>
             </button>
             <button className=" bg-gray-50 flex items-center gap-1 text-md   px-3 py-2  rounded-lg shadow-md text-gray-500 ">
-              Total  : {ordersData?.total}
+              Total : {ordersData?.total}
             </button>
           </div>
         </div>

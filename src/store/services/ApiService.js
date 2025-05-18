@@ -16,6 +16,6 @@ export const Apiservice = createApi({
     },
   }),
 
-  tagTypes: ["stocks", "category", "auth","order","delivery" , "client"],
+  tagTypes: ["stocks", "category", "auth","order","delivery" , "client" , "invoice"],
   endpoints: (builder) => ({}),
 });
