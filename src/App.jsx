@@ -17,13 +17,14 @@ import {
   OrderHistoryPage,
   OrderShopHistoryPage,
   ProductPage,
+  ProductsPage,
   ProfilePage,
   RegisterPage,
   StockDetailPage,
   StockPage,
 } from "./pages";
 import MainLayout from "./MainLayout";
-import { ProductDetailComponent } from "./Components";
+import { OrderTabComponent, ProductDetailComponent } from "./Components";
 import AdminRouteGuardComponent from "./Guard/AdminRouteGuard.component";
 import ClientRouteGuardComponent from "./Guard/ClientRouteGuard.component";
 import PublicGuardComponent from "./Guard/PublicGuard.component";
@@ -53,7 +54,9 @@ const App = () => {
         <Route element={<ClientRouteGuardComponent />}>
           <Route path="/" element={<MainLayout />}>
             <Route path="home" element={<HomePage />} />
+            <Route path="products" element={<ProductsPage />} />
             <Route path="invoices" element={<AddToCartPage />} />
+            <Route path="order" element={<OrderTabComponent />} />
             <Route path="order/history" element={<OrderShopHistoryPage />} />
             <Route path="order/current" element={<OrderCurrentPage />} />
             <Route path="stock" element={<ProductPage />} />

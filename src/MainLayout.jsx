@@ -23,10 +23,11 @@ const MainLayout = () => {
     <div>
       {isAdmin && isAdminRoute ? <AdminNav /> : <NavComponent />}
       <div
-        className={`flex-1 px-6 ${
-          data?.user?.isAdmin !== 1 ? "mt-14" : "mt-10"
-        } `}
-        style={{ marginLeft: "75px" }}
+        className={`flex-1  ${data?.user?.isAdmin !== 1 ? "" : "mt-10 px-6"
+          }`}
+        style={{
+          marginLeft: data?.user?.isAdmin === 1 ? "75px" : undefined,
+        }}
       >
         <Outlet />
       </div>

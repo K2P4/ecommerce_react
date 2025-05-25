@@ -2,7 +2,7 @@ import React from "react";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SearchComponent = ({ search, setSearch, setFinal , setSort ,sort}) => {
+const SearchComponent = ({ search, setSearch, setFinal, setSort, sort, isShop = false }) => {
   const searchData = (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
@@ -32,14 +32,17 @@ const SearchComponent = ({ search, setSearch, setFinal , setSort ,sort}) => {
         />
         <SearchIcon className="text-gray-400" />
       </button>
+      {
+        isShop &&
 
-      <FilterAltOutlinedIcon
-        onClick={handleSort}
-        sx={{ fontSize: 40 }}
-        className={` cursor-pointer bg-indigo-100 w-auto shadow-md p-2 duration-700 transition-all ease-in ${
-          sort == "desc" && "bg-indigo-200"
-        } "}  rounded-full  `}
-      />
+        < FilterAltOutlinedIcon
+          onClick={handleSort}
+          sx={{ fontSize: 40 }}
+          className={` cursor-pointer bg-indigo-100 w-auto shadow-md p-2 duration-700 transition-all ease-in ${sort == "desc" && "bg-indigo-200"
+            } "}  rounded-full  `}
+        />
+      }
+
     </div>
   );
 };

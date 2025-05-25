@@ -13,6 +13,7 @@ export { default as OrderHistoryPage } from "./Admin/OrderHistory.page";
 
 //Shop Pages
 export { default as HomePage } from "./Shop/Home.page";
+export { default as ProductsPage } from "./Shop/Products.page";
 export { default as ProductPage } from "./Shop/Product.page";
 export { default as CartPage } from "./Shop/Cart.page";
 export { default as AddToCartPage } from "./Shop/Cart.page";

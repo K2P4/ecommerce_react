@@ -119,17 +119,7 @@ const CheckOutPage = () => {
         </p>
       )}
 
-      {/* nav route */}
-      <div className="text-xl  mb-17 font-semibold text-gray-800">
-        <Link
-          className="  text-left text-blue-400  border-b-blue-400 border-b"
-          to="/stock/cart"
-        >
-          Cart List
-        </Link>
-        <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-        <Link to="/stock/checkout">Check Out</Link>
-      </div>
+  
 
       <Formik
         validateOnChange={false}
@@ -139,7 +129,7 @@ const CheckOutPage = () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, handleChange, handleBlur, values }) => (
-          <Form className="pb-5">
+          <Form className="p-5  container mx-auto w-full">
             <Grid container spacing={2}>
               <Grid item sm={12} md={7} lg={7}>
                 <div className=" border  rounded-xl  p-5 bg-gray-50 w-full shadow-xl">

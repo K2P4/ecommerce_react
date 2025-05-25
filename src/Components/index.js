@@ -4,6 +4,8 @@ export { default as Import } from "./Import.component";
 export { default as Date } from "./Date.component";
 export { default as Button } from "./FormComponent/Button.component";
 export { default as Delivery } from "./Delivery.component";
+export { default as OrderTabComponent } from "./OrderTab.component";
+export { default as PaginationComponent } from "./Pagination.component";
 
 
 
@@ -49,4 +51,14 @@ export { default as SearchComponent } from "./Search/Search.component";
 
 //Overview
 export { default as InvoiceOverviewComponent } from "./Overview/InvoiceOverview.component";
+
+//Banner
+export { default as MainComponent } from "./Banner/MainComponent";
+export { default as CollectionComponent } from "./Banner/CollectionComponent";
+export { default as FooterComponent } from "./Banner/FooterComponent";
+
+//SideBar
+export { default as ProductsBarComponent } from "./SideBar/ProductsBar.component";
+
+
 

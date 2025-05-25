@@ -1,53 +1,43 @@
 import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Drawer,
-  List,
   Badge,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
+  AppBar, Toolbar,
+  IconButton,
+  Menu,
+  MenuItem
+
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useLogoutMutation } from "../store/services/endpoints/auth.endpoint";
+import MenuIcon from '@mui/icons-material/Menu';
+
 import { AllContext } from "../context/AllContext";
 
 const NavComponent = () => {
   const location = useLocation();
   const { setLogout } = useContext(AllContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [cartAnchor, setCartAnchor] = React.useState(null);
   const { cart } = useContext(AllContext);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const cartOpen = Boolean(cartAnchor);
-
-  const handleCart = (event) => {
-    setCartAnchor(event.currentTarget);
-  };
+  const nav = useNavigate();
 
   const open = Boolean(anchorEl);
-
-  const handleCloseCart = () => {
-    setCartAnchor(null);
-  };
-
-  const handleOrder = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseOrder = () => {
+  const handleClose  = () => {
     setAnchorEl(null);
   };
 
+
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const [logoutFun] = useLogoutMutation();
-  const nav = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -56,168 +46,114 @@ const NavComponent = () => {
   };
 
   return (
-    <Drawer
-      className=" "
-      variant="permanent"
-      sx={{
-        width: 75,
+    <>
 
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: 75,
-          boxSizing: "border-box",
-          backgroundColor: "#f8f8f8",
-          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.2)",
-        },
-      }}
-    >
-      <List>
-        {/* Home */}
-        <ListItem
-          button
-          className={`cursor-pointer `}
-          component={Link}
-          to="/home"
-          sx={{ mb: 3, mt: 5 }}
-        >
-          <ListItemIcon>
-            <HomeIcon
-              className={`hover:text-blue-400 duration-500 ${
-                location.pathname == "/home" ? "text-blue-400" : " "
-              } `}
-            />
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
 
-        {/* Stock */}
-        <ListItem
-          button
-          className={`cursor-pointer `}
-          component={Link}
-          to="/stock/cart"
-          sx={{ mb: 3, mt: 5 }}
-        >
-          <ListItemIcon>
-            <Badge
-              badgeContent={cart.length}
-              smalls
-              sx={{
-                "& .MuiBadge-badge": {
-                  backgroundColor: "#FF6900",
-                  color: "white",
-                },
+
+
+      {/* Header/Navbar */}
+      <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "white", borderBottom: '1px solid #e0e0e0' }}>
+        <Toolbar className="container mx-auto w-full flex justify-between items-center py-4 px-4 sm:px-6 lg:px-8">
+
+          {/* Logo */}
+          <div className="flex items-center font-semibold tracking-wide text-gray-800">
+            <p onClick={() => nav('/home')} className="text-lg">
+              <span className="text-blue-600">X</span>PERFUMES
+            </p>
+          </div>
+
+          {/* Center Nav Links */}
+          <div className="hidden lg:flex items-center space-x-6 text-sm text-gray-600">
+            <a href="/home" className={`hover:text-blue-600 transition duration-300 ${location.pathname == "/home" ? "text-blue-600" : " "}`}>Home</a>
+            <a href="/products" className={`hover:text-blue-600 transition duration-300 ${location.pathname.includes('stock') || location.pathname.includes('product') ? "text-blue-600" : " "
+              }`}>Products</a>
+            <a href="#" className="hover:text-blue-600 transition duration-300">Categories</a>
+            <a href="#" className="hover:text-blue-600 transition duration-300">Contact</a>
+          </div>
+
+          {/* Right Icons */}
+          <div className="flex items-center space-x-2">
+            <IconButton className="text-gray-600 hover:text-blue-600 transition duration-300">
+              <SearchIcon />
+            </IconButton>
+            <IconButton className="text-gray-600 hover:text-blue-600 transition duration-300">
+              <Badge onClick={() => nav('/stock/cart')} badgeContent={cart?.length} sx={{ '& .MuiBadge-badge': { backgroundColor: '#3B82F6', textAlign: "center", fontWeight: "bold", color: "white" } }}>
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              id="profile-button"
+              aria-controls={open ? "profile-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleProfileClick}
+              className="text-gray-700  transition-all duration-300 p-2 rounded-full focus:outline-none "
+            >
+              <AccountCircle className="text-3xl hover:text-blue-500 duration-1000 transition-all " />
+            </IconButton>
+
+            <Menu
+              id="profile-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "profile-button",
+              }}
+
+              className="mt-2"
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
               }}
             >
-              <ShoppingCartIcon
-                className={`hover:text-blue-400 duration-500 ${
-                  location.pathname.includes('stock') ? "text-blue-400" : " "
-                } `}
-              />
-            </Badge>
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
+              {/* Order Item */}
+              <MenuItem
+                component={Link}
+                to="/order"
+                onClick={handleClose}
+                className="flex items-center space-x-3 py-2 px-4 hover:bg-blue-50 transition duration-200"
+              >
+                <ShoppingBagOutlinedIcon className="text-blue-500" />
+                <span className="text-gray-800 font-medium">Orders</span>
+              </MenuItem>
 
-        {/* order */}
+              {/* Profile Item */}
+              <MenuItem
+                component={Link}
+                to="/profile"
+                onClick={handleClose}
+                className="flex items-center space-x-3 py-2 px-4 hover:bg-blue-50 transition duration-200"
+              >
+                <PersonOutlineOutlinedIcon className=" text-emerald-500 " />
+                <span className="text-gray-800 font-medium">Profile</span>
+              </MenuItem>
 
-        <ListItem
-          button
-          className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
-          sx={{ mb: 3 }}
-        >
-          <ListItemIcon
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleOrder}
-          >
-            <LocalShippingIcon
-              className={`hover:text-blue-400 duration-500 ${
-                location.pathname.includes("/order") ? "text-blue-400" : " "
-              } `}
-            />
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
+              {/* Logout Item */}
+              <MenuItem
+                onClick={handleLogout}
+                className="flex items-center space-x-3 py-2 px-4 hover:bg-red-50 transition duration-200"
+              >
+                <ExitToAppOutlinedIcon className="text-gray-500" />
+                <span className="text-gray-800 font-medium">Logout</span>
+              </MenuItem>
+            </Menu>
 
-        <Menu
-          className=""
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleCloseOrder}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem
-            component={Link}
-            to="/order/current"
-            onClick={handleCloseOrder}
-          >
-            Current Order
-          </MenuItem>
-          <MenuItem
-            component={Link}
-            to="/order/history"
-            onClick={handleCloseOrder}
-          >
-            Order History
-          </MenuItem>
-        </Menu>
+            {/* Mobile Menu Icon */}
+            <div className="lg:hidden">
+              <IconButton>
+                <MenuIcon />
+              </IconButton>
+            </div>
+          </div>
 
-        {/* Invoices */}
-        <ListItem
-          button
-          className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
-          component={Link}
-          to="/invoices"
-          sx={{ mb: 3 }}
-        >
-          <ListItemIcon>
-            <ReceiptIcon
-              className={`hover:text-blue-400 duration-500 ${
-                location.pathname.includes("invoice") ? "text-blue-400" : " "
-              } `}
-            />
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
-
-        {/* Profile */}
-        <ListItem
-          button
-          className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
-          component={Link}
-          to="/profile"
-          sx={{ mb: 3 }}
-        >
-          <ListItemIcon>
-            <PersonIcon
-              className={`hover:text-blue-400 duration-500 ${
-                location.pathname.includes("profile") ? "text-blue-400" : " "
-              } `}
-            />
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
-
-        {/* Signout */}
-        <ListItem
-          onClick={handleLogout}
-          button
-          className=" 
-           mt-[200px] cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
-          sx={{ mb: 5 }}
-        >
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText />
-        </ListItem>
-      </List>
-    </Drawer>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
 

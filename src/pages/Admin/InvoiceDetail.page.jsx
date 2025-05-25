@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useOrderDetailQuery } from "../../store/services/endpoints/order.endpoint";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button,
   Divider,
@@ -9,7 +11,7 @@ import {
   CircularProgress,
   IconButton,
   Stack,
-  Typography,
+  Typography, TextField, Paper, List, ListItem, ListItemText
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -261,7 +263,7 @@ const InvoiceDetailPage = () => {
             </Grid>
 
 
-                <Grid item xs={6} sm={3} md={1}>
+            <Grid item xs={6} sm={3} md={1}>
               <Typography
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
@@ -271,7 +273,7 @@ const InvoiceDetailPage = () => {
               </Typography>
             </Grid>
 
-             <Grid item xs={6} sm={3} md={7}>
+            <Grid item xs={6} sm={3} md={7}>
               <Typography sx={{ fontFamily: "Poppins" }}>
                 {data?.order?.invoiceId?.status}
               </Typography>
@@ -391,18 +393,53 @@ const InvoiceDetailPage = () => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-start ">
+        <div className="flex flex-col md:flex-row gap-6 p-4 border-t w-full border-gray-200">
           {/* Log Activity */}
-          <div className="p-4 border-t border-gray-200">
-            <Typography variant="h6" className="mb-3">
-              Log Activity
-            </Typography>
+          <div className="flex-1">
+            <div className="">
+              <h1
+                variant="h1" className="mb-3 font-medium text-xl text-gray-800">
+                Logs
+              </h1>
+              {data?.order?.invoiceId?.logs?.map((log, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <div className="mr-2 cursor-pointer bg-blue-400 hover:bg-blue-300 duration-700 transition-all
+                     rounded-full p-1">{log.icon}</div>
+                  <div>
+                    <p>{log.message}</p>
+                    <p variant="caption" className="text-gray-500 text-sm m-0">
+                      {moment(log.date).format("DD.MMMM.YYYY , hh:mmA")}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+
+            </div>
 
           </div>
 
           {/* Attachments */}
+          <div className="flex-1">
+            <h1 variant="h6" className="mb-3">
+              Attachments
+            </h1>
 
 
+            {data?.order?.invoiceId?.logs?.map((attachment, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <InsertDriveFileIcon className="mr-2" color="action" />
+                <div>
+                  <Typography>{attachment.name}</Typography>
+                  <Typography variant="caption" color="textSecondary">
+                    {attachment.size}
+                  </Typography>
+                </div>
+              </div>
+            ))}
+
+
+          </div>
         </div>
 
       </div>

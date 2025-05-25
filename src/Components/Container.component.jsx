@@ -1,10 +1,13 @@
 import React from 'react'
+import { Container } from '@mui/material'
 
-const ContainerComponent = ({children}) => {
+
+const ContainerComponent = ({ children }) => {
   return (
-    <div className='container mx-auto mt-14'>
+    <Container maxWidth="xl" className="">
       {children}
-    </div>
+    </Container>
+
   )
 }
 

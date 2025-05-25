@@ -6,13 +6,24 @@ const stockApi = Apiservice.injectEndpoints({
       query: ({
         search = "",
         page = 1,
-        perpage = 10,
+        perpage = 20,
         time = "",
         sort = "desc",
-      }) => ({
-        url: `/stocks?search=${search}&page=${page}&perpage=${perpage}&time=${time}&sort=${sort}`,
-        method: "GET",
-      }),
+        branch = null,
+        priceRange = null,
+        onlyInStock = null,
+        rating = null,
+        discount = null,
+        categories = null,
+      }) => {
+        const priceParam = Array.isArray(priceRange)
+          ? priceRange.join("-")
+          : priceRange;
+        return {
+          url: `/stocks?search=${search}&page=${page}&perpage=${perpage}&onlyInStock=${onlyInStock}&rating=${rating}&discount=${discount}&time=${time}&sort=${sort}&priceRange=${priceParam}`,
+          method: "GET",
+        };
+      },
       providesTags: ["stocks"],
     }),
 
