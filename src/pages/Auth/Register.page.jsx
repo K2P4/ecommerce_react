@@ -71,7 +71,7 @@ const RegisterPage = () => {
 
   return (
     <div className="">
-      <div className="  flex flex-col justify-center  h-lvh   m-auto ">
+      <div className=" p-5 sm:p-0 flex flex-col justify-center  h-lvh   m-auto ">
         <img
           src="/logo-xpos.png"
           className="size-full w-32 mx-auto h-24 object-cover"
@@ -85,7 +85,7 @@ const RegisterPage = () => {
         >
           {({ isSubmitting, handleChange, handleBlur, values }) => (
             <Form>
-              <div className=" border  sm:px-12 sm:py-8 rounded-xl bg-gray-50   sm:w-lg  m-auto  shadow-md">
+              <div className="p-4  border  sm:px-12 sm:py-8 rounded-xl bg-gray-50   sm:w-lg  m-auto  shadow-md">
                 <h1 className="  text-xl font-medium  text-center m-auto mb-5">
                   Register Your Admin Account
                 </h1>

@@ -1,8 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import {
+  AboutPage,
   AddToCartPage,
   CartPage,
+  CategoryDetailPage,
   CategoryPage,
   CheckOutPage,
   ClientLoginPage,
@@ -28,6 +30,7 @@ import { OrderTabComponent, ProductDetailComponent } from "./Components";
 import AdminRouteGuardComponent from "./Guard/AdminRouteGuard.component";
 import ClientRouteGuardComponent from "./Guard/ClientRouteGuard.component";
 import PublicGuardComponent from "./Guard/PublicGuard.component";
+import ClientPermessionGuardComponent from "./Guard/ClientPermessionGuard.component";
 
 const App = () => {
   return (
@@ -50,11 +53,18 @@ const App = () => {
           </Route>
         </Route>
 
+        <Route element={<ClientPermessionGuardComponent />}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="category/:id" element={<CategoryDetailPage />} />
+          </Route>
+        </Route>
+
         {/* Client */}
         <Route element={<ClientRouteGuardComponent />}>
           <Route path="/" element={<MainLayout />}>
-            <Route path="home" element={<HomePage />} />
-            <Route path="products" element={<ProductsPage />} />
             <Route path="invoices" element={<AddToCartPage />} />
             <Route path="order" element={<OrderTabComponent />} />
             <Route path="order/history" element={<OrderShopHistoryPage />} />

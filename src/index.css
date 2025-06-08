@@ -154,20 +154,21 @@
 } */
 
 body {
+  margin: 0;
+}
+
+body.client-bg {
   background-color: rgb(249, 250, 251);
 }
 
-
-
-*{
-  font-family: "Poppins";
-
+body.admin-bg {
+  background-color: #f2fcff; 
 }
 
-
+* {
+  font-family: "Poppins";
+}
 
 .table-item {
   font-family: "Poppins";
 }
-
-

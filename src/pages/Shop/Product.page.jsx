@@ -11,7 +11,7 @@ const ProductPage = () => {
          <div className="text-xl  font-semibold text-gray-800">
           <Link
             className="  text-left text-blue-400  border-b-blue-400 border-b"
-            to="/home"
+            to="/"
           >
             Home
           </Link>

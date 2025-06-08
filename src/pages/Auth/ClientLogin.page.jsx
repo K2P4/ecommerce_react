@@ -58,7 +58,7 @@ const LoginPage = () => {
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
 
-        nav("/home");
+        nav("/");
 
         setLogin(true);
       } else {
@@ -79,12 +79,12 @@ const LoginPage = () => {
         </p>
       )}
 
-      {logoutCheck && (
+      {/* {logoutCheck && (
         <p className="bg-gray-400 text-gray-50 text-sm px-2 py-1 float-end w-auto shadow-sm rounded-md mt-4">
           Logout successfully!
         </p>
-      )}
-      <div className="  flex flex-col justify-center  h-lvh   m-auto ">
+      )} */}
+      <div className=" p-5 sm:p-0  flex flex-col justify-center  h-lvh   m-auto ">
         <img
           src="/logo-xpos.png"
           className="size-full w-32 mx-auto h-24 object-cover"
@@ -98,7 +98,7 @@ const LoginPage = () => {
         >
           {({ isSubmitting, handleChange, handleBlur, values }) => (
             <Form>
-              <div className=" border  sm:px-12 sm:py-8 rounded-xl bg-gray-50   sm:w-lg  m-auto  shadow-md">
+              <div className=" p-4 border  sm:px-12 sm:py-8 rounded-xl bg-gray-50   sm:w-lg  m-auto  shadow-md">
                 <h1 className="  text-xl font-medium  text-center m-auto mb-5">
                   Login Your Client Account
                 </h1>

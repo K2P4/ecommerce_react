@@ -8,6 +8,7 @@ import PaginationComponent from "../Pagination.component";
 import SearchComponent from "../Search/Search.component";
 
 const ProductsListComponent = ({
+  handleFilter,
   search,
   setSearch,
   sort,
@@ -57,13 +58,15 @@ const ProductsListComponent = ({
 
   return (
     <div>
+    
+
       <section className={` ${!productPage && "py-12"} `}>
         <Container maxWidth={maxW} className="">
           {maxW !== "xl" &&
             (productPage ? (
               <div className="flex items-center justify-between my-5">
                 <h2
-                  className={`text-2xl font-semibold text-gray-800 ${
+                  className={` text-xl lg:text-2xl font-semibold text-gray-800 ${
                     !productPage && "mb-8"
                   } underline ${!productPage && "text-center"} `}
                 >
@@ -71,6 +74,7 @@ const ProductsListComponent = ({
                 </h2>
                 <SearchComponent
                   search={search}
+                  handleFilter={handleFilter}
                   setSearch={setSearch}
                   sort={sort}
                   setFinal={setFinal}
@@ -111,9 +115,16 @@ const ProductsListComponent = ({
           )}
 
           {filterStock?.length > 0 ? (
-            <Grid container spacing={4}>
+            <Grid container spacing={!productPage ? 4 : 2}>
               {filterStock.map((item) => (
-                <Grid className="" item xs={12} sm={6} md={3} key={item?._id}>
+                <Grid
+                  className=""
+                  item
+                  xs={12}
+                  sm={6}
+                  md={productPage ? 4 : 3}
+                  key={item?._id}
+                >
                   <div className="hover:bg-gray-300 relative rounded-lg hover:cursor-pointer hover:shadow-xl hover:ease-in duration-500 transition-all">
                     {item?.status == 0 ? (
                       <span className="text-xs absolute top-2 right-3 px-2 py-1 rounded-lg text-center  bg-emerald-200 text-emerald-600 hover:bg-emerald-300 hover:text-emerald-800 duration-700 transition-all ease-in">

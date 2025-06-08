@@ -14,7 +14,7 @@ const AdminRouteGuardComponent = () => {
   }
 
   if (data.user.isAdmin !== 1) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

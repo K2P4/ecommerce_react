@@ -6,6 +6,7 @@ export { default as Button } from "./FormComponent/Button.component";
 export { default as Delivery } from "./Delivery.component";
 export { default as OrderTabComponent } from "./OrderTab.component";
 export { default as PaginationComponent } from "./Pagination.component";
+export { default as TabPanelComponent } from "./TabPanel.component";
 
 
 
@@ -60,5 +61,7 @@ export { default as FooterComponent } from "./Banner/FooterComponent";
 //SideBar
 export { default as ProductsBarComponent } from "./SideBar/ProductsBar.component";
 
+//Sheet
+export { default as FilterSheetComponent } from "./Sheet/FilterSheet.component";
 
 

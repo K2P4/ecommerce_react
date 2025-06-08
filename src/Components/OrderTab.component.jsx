@@ -8,7 +8,7 @@ const TabPanel = ({ children, value, index }) => {
     <div hidden={value !== index}>
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -23,23 +23,25 @@ const OrderTabComponent = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Tabs
-        value={value}
-        variant="fullWidth"
-        onChange={handleChange}
-        aria-label="Order Tabs"
-      >
-        <Tab sx={{fontFamily :"Poppins"}} label="Current Order" wrapped />
-        <Tab   sx={{fontFamily :"Poppins"}} label="Order History" wrapped />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <OrderCurrentPage />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <OrderShopHistoryPage />
-      </TabPanel>
-    </Box>
+    <div>
+      <Box sx={{ width: "100%" }}>
+        <Tabs
+          value={value}
+          variant="fullWidth"
+          onChange={handleChange}
+          aria-label="Order Tabs"
+        >
+          <Tab sx={{ fontFamily: "Poppins" }} label="Current Order" wrapped />
+          <Tab sx={{ fontFamily: "Poppins" }} label="Order History" wrapped />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <OrderCurrentPage />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <OrderShopHistoryPage />
+        </TabPanel>
+      </Box>
+    </div>
   );
 };
 

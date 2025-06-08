@@ -14,7 +14,7 @@ import {
   FormControl,
   Snackbar,
 } from "@mui/material";
-
+import ImageIcon from "@mui/icons-material/Image";
 import {
   useGetCategoryQuery,
   useUpdateCategoryMutation,
@@ -59,6 +59,7 @@ const EditFormComponent = ({
     categoryId: null,
     description: "",
     images: [],
+    image: null,
   });
 
   useEffect(() => {
@@ -73,20 +74,24 @@ const EditFormComponent = ({
       categoryId: editData?.categoryId?._id || null,
       description: editData?.description || "",
       images: editData?.images || [],
+      image: editData?.image || [],
     });
   }, [editData]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    const formDataApi = new FormData();
+
     if (checkCategory) {
       try {
+        formDataApi.append("name", formData.name);
+        formDataApi.append("image", formData.image);
+
         const response = await editCategory({
           id: editData?._id,
-          formData,
+          formData: formDataApi,
         });
-
-        console.log(response);
 
         if (response.data.success) {
           setEditSuccess(true);
@@ -98,7 +103,6 @@ const EditFormComponent = ({
         alert("Failed to edit stock.");
       }
     } else {
-      const formDataApi = new FormData();
       formDataApi.append("code", formData.code);
       formDataApi.append("name", formData.name);
       formDataApi.append("price", formData.price);
@@ -120,8 +124,6 @@ const EditFormComponent = ({
           id: editData?._id,
           formData: formDataApi,
         });
-
-        console.log(response);
 
         if (response.data.success) {
           setEditSuccess(true);
@@ -161,6 +163,13 @@ const EditFormComponent = ({
   };
 
   const handleImageChange = (event) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: event.target.files[0],
+    }));
+  };
+
+  const handleImagesChange = (event) => {
     const files = Array.from(event.target.files);
 
     setFormData((prev) => ({
@@ -173,7 +182,7 @@ const EditFormComponent = ({
     imageRef.current.click();
   };
 
-  console.log(editData?.categoryId?.name);
+  console.log("test", formData);
 
   return (
     <div className="">
@@ -181,22 +190,50 @@ const EditFormComponent = ({
         sx={{ fontFamily: "Poppins", textAlign: "center" }}
         id="responsive-dialog-title"
       >
-        Edit New Stock
+        {checkCategory ? "Edit Category" : "Edit Stock"}
       </DialogTitle>
       <DialogContent>
         <form method="PUT" onSubmit={handleSubmit}>
           {checkCategory ? (
-            <div className=" mb-3 ">
-              <p>Name</p>
-              <input
-                required
-                className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
+            <Grid container spacing={5} className="">
+              <Grid item xl={12} sm={12} md={12} lg={12}>
+                <div className=" mb-3 ">
+                  <p>Name</p>
+                  <input
+                    required
+                    className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+              </Grid>
+
+              {/* Image */}
+              <Grid item xl={12} sm={12} md={12} lg={12}>
+                <p>Image</p>
+                <div
+                  onClick={imageDisplay}
+                  className=" h-[200px] flex items-center border-dashed w-full border rounded-xl cursor-pointer "
+                >
+                  {formData?.image ? (
+                    <img
+                      className=" object-cover h-full w-full p-1 rouned-xl m-auto "
+                      src={formData?.image}
+                    />
+                  ) : ""}
+
+                  <input
+                    ref={imageRef}
+                    className=" hidden "
+                    type="file"
+                    name="image"
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </Grid>
+            </Grid>
           ) : (
             <Grid container spacing={5} className="">
               {/* Form Section One */}
@@ -290,7 +327,7 @@ const EditFormComponent = ({
                     className=" hidden "
                     type="file"
                     name="images"
-                    onChange={handleImageChange}
+                    onChange={handleImagesChange}
                   />
                 </div>
               </Grid>
@@ -357,7 +394,7 @@ const EditFormComponent = ({
           {/* Category */}
           {!checkCategory && (
             <FormControl className="" fullWidth>
-              <label  id="category-label">Category</label>
+              <label id="category-label">Category</label>
               <Select
                 sx={{ borderRadius: "15px" }}
                 labelId="category-label"

@@ -143,7 +143,7 @@ const CartPage = () => {
                 <p>
                   or{" "}
                   <button
-                  onClick={() => nav('/home')}
+                  onClick={() => nav('/')}
                     type="button"
                     className="font-medium text-blue-600 duration-500 hover:text-blue-500"
                   >

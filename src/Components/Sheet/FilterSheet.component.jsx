@@ -1,56 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Rating, Switch } from "@mui/material";
 
-const ProductsBarComponent = ({
-  categoryId,
+const FilterSheetComponent = ({
   categoryData,
   colors,
   filters,
   setFilters,
   handleColorSelect,
+  setShowMobileFilter,
+  showMobileFilter,
   handleFilter,
   clearFilter,
 }) => {
- 
+  const sheetRef = useRef();
+  useEffect(() => {
+    const handleMouseDown = (event) => {
+      if (sheetRef.current && !sheetRef.current.contains(event.target)) {
+        setShowMobileFilter(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [showMobileFilter]);
 
   return (
     <div
-      className={` hidden sm:inline w-64  lg:w-72 bg-white shadow-lg p-6 h-full overflow-y-auto`}
+      ref={sheetRef}
+      className={`fixed z-50 w-60 sm:hidden bg-white shadow-lg p-6 min-h-screen overflow-y-scroll
+    transform transition-transform duration-300 ease-in-out
+    ${showMobileFilter ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* Category */}
-      {categoryId == null && (
-        <div className="border-b border-gray-300 pb-4">
-          <p className="text-lg   font-semibold text-black mb-3"> Category </p>
-          <div className="flex flex-col space-y-2.5 mb-4">
-            {categoryData?.data?.map((category) => (
-              <label key={category?._id} className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={filters.categories?.includes(category._id)}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const id = category._id;
-                    setFilters((prev) => {
-                      const updatedCategories = checked
-                        ? [...(prev.categories || []), id]
-                        : (prev.categories || []).filter(
-                            (catId) => catId !== id
-                          );
+      <div className="border-b border-gray-300 pb-4">
+        <p className="text-lg   font-semibold text-black mb-3"> Category </p>
+        <div className="flex flex-col space-y-2.5 mb-4">
+          {categoryData?.data?.map((category) => (
+            <label key={category?._id} className="flex items-center">
+              <input
+                type="checkbox"
+                checked={filters.categories?.includes(category._id)}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  const id = category._id;
+                  setFilters((prev) => {
+                    const updatedCategories = checked
+                      ? [...(prev.categories || []), id]
+                      : (prev.categories || []).filter((catId) => catId !== id);
 
-                      return { ...prev, categories: updatedCategories };
-                    });
-                  }}
-                  className="accent-blue-500 mr-2"
-                />
-                <p className="text-sm"> {category?.name} </p>
-              </label>
-            ))}
-          </div>
+                    return { ...prev, categories: updatedCategories };
+                  });
+                }}
+                className="accent-blue-500 mr-2"
+              />
+              <p className="text-sm"> {category?.name} </p>
+            </label>
+          ))}
         </div>
-      )}
+      </div>
       {/* Price Range */}
-      <div className="border-b border-gray-300  py-4">
+      <div className=" pt-4">
         <p className="text-lg font-semibold text-black mb-3"> Price Range </p>
         <div className="flex items-center mb-2">
           <input
@@ -199,4 +211,4 @@ const ProductsBarComponent = ({
   );
 };
 
-export default ProductsBarComponent;
+export default FilterSheetComponent;

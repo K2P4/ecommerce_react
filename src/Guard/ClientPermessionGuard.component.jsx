@@ -1,9 +1,12 @@
+import { React, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useLazyGetProfileQuery } from "../store/services/endpoints/auth.endpoint";
-import { useEffect } from "react";
+import {
+  useGetProfileQuery,
+  useLazyGetProfileQuery,
+} from "../store/services/endpoints/auth.endpoint";
 import { ProgressLoadingComponent } from "../Components";
 
-const PublicGuardComponent = () => {
+const ClientPermessionGuardComponent = () => {
   const token = localStorage.getItem("token");
   const [trigger, { data, isLoading }] = useLazyGetProfileQuery();
 
@@ -13,9 +16,13 @@ const PublicGuardComponent = () => {
     }
   }, [token]);
 
+  // const { data, isLoading } = useGetProfileQuery(undefined, {
+  //   skip: !token,
+  // });
+
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center  h-lvh  text-center m-auto ">
+      <div className="flex justify-center items-center h-screen">
         <ProgressLoadingComponent value={10} />
       </div>
     );
@@ -23,11 +30,8 @@ const PublicGuardComponent = () => {
 
   if (token && data?.user?.isAdmin === 1) {
     return <Navigate to="/admin/dashboard" replace />;
-  } else if (token && data?.user?.isAdmin !== 1) {
-    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;
 };
-
-export default PublicGuardComponent;
+export default ClientPermessionGuardComponent;
