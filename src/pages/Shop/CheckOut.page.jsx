@@ -119,17 +119,7 @@ const CheckOutPage = () => {
         </p>
       )}
 
-      {/* nav route */}
-      <div className="text-xl  mb-17 font-semibold text-gray-800">
-        <Link
-          className="  text-left text-blue-400  border-b-blue-400 border-b"
-          to="/stock/cart"
-        >
-          Cart List
-        </Link>
-        <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-        <Link to="/stock/checkout">Check Out</Link>
-      </div>
+  
 
       <Formik
         validateOnChange={false}
@@ -139,7 +129,7 @@ const CheckOutPage = () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, handleChange, handleBlur, values }) => (
-          <Form className="pb-5">
+          <Form className="p-5  container mx-auto w-full">
             <Grid container spacing={2}>
               <Grid item sm={12} md={7} lg={7}>
                 <div className=" border  rounded-xl  p-5 bg-gray-50 w-full shadow-xl">
@@ -334,59 +324,65 @@ const CheckOutPage = () => {
 
                     </p>
                   ) : (
-                    <p className="text-xs text-red-400 mt-0">
+                    <p className="text-xs text-red-400 mt-0 mb-8">
                       *Don't need to send the transition slip.
                       <p>*We will contact within 15 mins after ordered</p>
                     </p>
                   )}
 
-                  <div className="mt-8 mb-1">
-                    <p>
-                      <span className="   w-48 inline-flex  text-left">
-                        Pay No
-                      </span>{" "}
-                      <span className="text-gray-400 text-left">
-                        {" "}
-                        : 09968213232
-                      </span>
-                    </p>
-                    <p>
-                      <span className="   w-48 inline-flex  text-left">
-                        Account Name
-                      </span>{" "}
-                      <span className="text-gray-400 text-left">
-                        {" "}
-                        : Phyo Thura
-                      </span>
-                    </p>
-                  </div>
+                  {
+                    values.paymentType !== "2" &&
+                    <div className="mt-8 mb-1">
+                      <p>
+                        <span className="   w-48 inline-flex  text-left">
+                          Pay No
+                        </span>{" "}
+                        <span className="text-gray-400 text-left">
+                          {" "}
+                          : 09968213232
+                        </span>
+                      </p>
+                      <p>
+                        <span className="   w-48 inline-flex  text-left">
+                          Account Name
+                        </span>{" "}
+                        <span className="text-gray-400 text-left">
+                          {" "}
+                          : Phyo Thura
+                        </span>
+                      </p>
+                    </div>
+                  }
 
-                  <div
-                    onClick={hanldeTransition}
-                    className=" border-gray-500 mb-8 p-8 flex items-center cursor-pointer border border-dashed rounded-lg"
-                  >
-                    <Field name="transitionRecord">
-                      {({ field, form }) => (
-                        <input
-                          ref={transitionRef}
-                          className="hidden"
-                          name={"transitionRecord"}
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) =>
-                            uploadTransition(e, form.setFieldValue)
-                          }
-                        />
-                      )}
-                    </Field>
 
-                    <p className="text-sm text-gray-400 m-auto text-center">
-                      {values.transitionRecord
-                        ? "uploaded "
-                        : "upload slip here"}
-                      <ImageIcon className="text-gray-400 " />
-                    </p>
-                  </div>
+                  {
+                    values.paymentType !== "2" && <div
+                      onClick={hanldeTransition}
+                      className=" border-gray-500 mb-8 p-8 flex items-center cursor-pointer border border-dashed rounded-lg"
+                    >
+                      <Field name="transitionRecord">
+                        {({ field, form }) => (
+                          <input
+                            ref={transitionRef}
+                            className="hidden"
+                            name={"transitionRecord"}
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                              uploadTransition(e, form.setFieldValue)
+                            }
+                          />
+                        )}
+                      </Field>
+                      <p className="text-sm text-gray-400 m-auto text-center">
+                        {values.transitionRecord
+                          ? "uploaded "
+                          : "upload slip here"}
+                        <ImageIcon className="text-gray-400 " />
+                      </p>
+                    </div>
+                  }
+
 
                   <div className=" border-t-gray-300 ">
                     <p className="text-xs text-gray-400 mt-0">

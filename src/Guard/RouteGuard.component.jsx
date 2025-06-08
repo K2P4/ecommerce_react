@@ -1,17 +1,24 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useGetProfileQuery } from "../store/services/endpoints/auth.endpoint";
+import { useLazyGetProfileQuery } from "../store/services/endpoints/auth.endpoint";
+import { useEffect } from "react";
+import { ProgressLoadingComponent } from "../Components";
 
 const RouteGuardComponent = () => {
-  const { data, isLoading } = useGetProfileQuery();
   const token = localStorage.getItem("token");
+  const [trigger, { data, isLoading }] = useLazyGetProfileQuery();
+
+  useEffect(() => {
+    if (token) {
+      trigger();
+    }
+  }, [token]);
   const location = useLocation();
   const isAdmin = data?.user?.isAdmin === 1;
-
 
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center  h-lvh  text-center m-auto ">
-        Loading...
+        <ProgressLoadingComponent value={10} />
       </div>
     );
   }
@@ -20,9 +27,8 @@ const RouteGuardComponent = () => {
     return <Navigate to="/client/login" replace />;
   }
 
-
   if (location.pathname.startsWith("/admin") && !isAdmin) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

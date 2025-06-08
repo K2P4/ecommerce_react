@@ -1,32 +1,45 @@
 import React, { useEffect } from "react";
 import { AdminNav, NavComponent } from "./Components";
 import { Outlet } from "react-router-dom";
-import { useGetProfileQuery } from "./store/services/endpoints/auth.endpoint";
+import { useLazyGetProfileQuery } from "./store/services/endpoints/auth.endpoint";
 
 const MainLayout = () => {
   const token = localStorage.getItem("token");
-
-  const { data, isLoading, refetch } = useGetProfileQuery(undefined, {
-    skip: !token,
-  });
+  const [trigger, { data, isLoading }] = useLazyGetProfileQuery();
 
   useEffect(() => {
     if (token) {
-      refetch();
+      trigger();
     }
   }, [token]);
 
   const isAdmin = data?.user?.isAdmin === 1;
   const isAdminRoute = location.pathname.startsWith("/admin");
 
+  useEffect(() => {
+    const body = document.body;
+    if (isAdminRoute && isAdmin) {
+      body.classList.add("admin-bg");
+      body.classList.remove("client-bg");
+    } else {
+      body.classList.add("client-bg");
+      body.classList.remove("admin-bg");
+    }
+
+    return () => {
+      body.classList.remove("admin-bg");
+      body.classList.remove("client-bg");
+    };
+  }, [isAdminRoute, isAdmin]);
+
   return (
     <div>
       {isAdmin && isAdminRoute ? <AdminNav /> : <NavComponent />}
       <div
-        className={`flex-1 px-6 ${
-          data?.user?.isAdmin !== 1 ? "mt-14" : "mt-10"
-        } `}
-        style={{ marginLeft: "75px" }}
+        className={`flex-1  ${data?.user?.isAdmin !== 1 ? "" : "mt-10 px-6"}`}
+        style={{
+          marginLeft: data?.user?.isAdmin === 1 ? "75px " : undefined,
+        }}
       >
         <Outlet />
       </div>

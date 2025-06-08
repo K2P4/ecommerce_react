@@ -43,6 +43,19 @@ const orderApi = Apiservice.injectEndpoints({
       invalidatesTags: ["order"],
     }),
 
+    downloadInvoice: builder.mutation({
+      query: (orderId) => ({
+        url: `/order/download-invoice`,
+        method: "POST",
+        body: { orderId },
+        responseHandler: async (response) => {
+          return await response.blob();
+        },
+      }),
+
+      invalidatesTags: ["order"],
+    }),
+
     deleteOrder: builder.mutation({
       query: (id) => ({
         url: `/order/${id}`,
@@ -59,4 +72,5 @@ export const {
   useDeleteOrderMutation,
   useOrderDetailQuery,
   useUpdateOrderMutation,
+  useDownloadInvoiceMutation,
 } = orderApi;

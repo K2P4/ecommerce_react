@@ -16,7 +16,7 @@ const ProductDetailComponent = () => {
   const [atcDisabled, atcSetDisabled] = useState(false);
   const images = data?.stock?.images || [];
   const [selectedImage, setSelectedImage] = useState("");
-  const { addToCart,cart } = useContext(AllContext);
+  const { addToCart, cart } = useContext(AllContext);
 
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const ProductDetailComponent = () => {
       id: data?.stock?._id,
       quantity,
       name: data?.stock?.name,
-      description:data?.stock?.description,
+      description: data?.stock?.description,
       image: data?.stock?.images[0],
       price: discountPrice,
       discount: data?.stock?.discountPercentage,
@@ -54,20 +54,10 @@ const ProductDetailComponent = () => {
 
   return (
     <div>
-      {/* nav route */}
-      <div className="text-xl  mb-17 font-semibold text-gray-800">
-        <Link
-          className="  text-left text-blue-400  border-b-blue-400 border-b"
-          to="/home"
-        >
-          Home
-        </Link>
-        <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-        {data?.stock?.name}
-      </div>
+
 
       {isLoading ? (
-        <div className="flex items-center gap-15 mx-auto ">
+        <div className="flex items-center   container  w-full gap-15 mx-auto ">
           <Skeleton variant="rounded" width={450} height={250} />
 
           <div className="space-y-1">
@@ -86,14 +76,14 @@ const ProductDetailComponent = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-12 items-center  gap-10">
-          <div className="col-span-7">
-            <div className="flex gap-5 my-4 items-center align-middle h-[365px]">
+        <div className="grid grid-cols-12 items-center p-5 container w-full  gap-10">
+          <div className="col-span-12 md:col-span-7">
+            <div className="flex gap-2 md:gap-5 h-[305px] my-4 items-center align-middle md:h-[365px]">
               <div className="flex flex-col gap-2">
                 {images.map((img, index) => (
                   <img
                     key={index}
-                    className="w-[180px] h-[85px] rounded-sm shadow-sm object-cover 
+                    className="w-[150px] h-[70px] md:w-[180px] md:h-[85px] rounded-sm shadow-sm object-cover 
                         border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform"
                     src={img}
                     onMouseEnter={() => setSelectedImage(img)}
@@ -109,7 +99,7 @@ const ProductDetailComponent = () => {
           </div>
 
           {/* Right - Product Details */}
-          <div className="col-span-5 space-y-3 ">
+          <div className=" col-span-12 md:col-span-5 space-y-3 ">
             <div>
               <p className="text-lg capitalize text-gray-600 mb-1">
                 {data?.stock?.categoryId?.name || ""}
@@ -139,23 +129,22 @@ const ProductDetailComponent = () => {
               {data?.stock?.discountPercentage && (
                 <div>
                   <div className="flex items-center gap-10 ">
-                    <p className="text-lg font-semibold ">
-                      KS {Math.ceil(discountPrice)}
+                    <p className="text-lg font-semibold  text-blue-700 ">
+                       {Math.ceil(discountPrice)} MMK
                     </p>
 
-                    <span className="   text-center  px-3  py-1 rounded-md  bg-orange-300 text-orange-500  hover:cursor-pointer hover:text-orange-600  font-medium text-xs  ">
-                      {data?.stock?.discountPercentage}%
+                    <span className=" text-emerald-600 text-sm font-medium ml-auto">
+                      Save {data?.stock?.discountPercentage}%
                     </span>
                   </div>
 
                   <p
-                    className={` ${
-                      data?.stock?.discountPercentage
+                    className={` ${data?.stock?.discountPercentage
                         ? " line-through text-gray-400 "
                         : "text-xl font-semibold"
-                    }`}
+                      }`}
                   >
-                    KS {Math.ceil(finalPrice)}
+                     {Math.ceil(finalPrice)} MMK
                   </p>
                 </div>
               )}

@@ -38,20 +38,9 @@ const CartPage = () => {
   };
 
 
-  console.log('cart',cart);
   return (
     <div>
-      {/* nav route */}
-      <div className="text-xl font-semibold text-gray-800">
-        <Link
-          className="  text-left text-blue-400  border-b-blue-400 border-b"
-          to="/home"
-        >
-          Home
-        </Link>
-        <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-        <Link to="/stock/cart">Cart List</Link>
-      </div>
+  
 
       <div
         transition
@@ -61,8 +50,8 @@ const CartPage = () => {
           <div className="flex  flex-col rounded-lg   bg-gray-50 w-full shadow-xl">
             <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
               <div className="flex items-start justify-between">
-                <h1 className="text-lg font-medium text-gray-900">
-                  Shopping cart
+                <h1 className="text-lg sm:text-xl font-medium text-gray-900">
+                  Shopping Cart List
                 </h1>
               </div>
 
@@ -84,12 +73,12 @@ const CartPage = () => {
                               <h3>
                                 <a
                                   href={`/stock/${product.id}`}
-                                  className="text-black hover:underline  duration-500 cursor-pointer "
+                                  className="text-sm md:text-base text-black hover:underline text-nowrap duration-500 cursor-pointer "
                                 >
                                   {product?.name}
                                 </a>
                               </h3>
-                              <div className="flex ml-4">
+                              <div className="flex md:ml-4">
                                 <button
                                   onClick={() => removeCart(product.id)}
                                   type="button"
@@ -104,9 +93,9 @@ const CartPage = () => {
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 sm:gap-4">
                               <PlusIcon
-                                className="  bg-gray-200 cursor-pointer p-0.5 text-gray-600 active:scale-95 duration-500 transition-all rounded-full   "
+                                className="  bg-gray-200 cursor-pointer p-1 sm:p-0.5 text-gray-600 active:scale-95 duration-500 transition-all rounded-full   "
                                 onClick={() =>
                                   product?.quantity > 0 &&
                                   addQuantity(product.id)
@@ -120,11 +109,11 @@ const CartPage = () => {
                                   product.quantity > 1 &&
                                   removeQuantity(product?.id)
                                 }
-                                className="  bg-gray-200 cursor-pointer p-0.5 text-gray-600 active:scale-95 duration-500 transition-all rounded-full  "
+                                className="  bg-gray-200 cursor-pointer p-1 sm:p-0.5 text-gray-600 active:scale-95 duration-500 transition-all rounded-full  "
                               />
                             </div>
 
-                            <p className="ml-4">{Number(product.price).toLocaleString()} MMK</p>
+                            <p className="text-xs sm:text-base md:ml-4">{Number(product.price).toLocaleString()} MMK</p>
                           </div>
                         </div>
                       </li>
@@ -135,7 +124,7 @@ const CartPage = () => {
             </div>
 
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-              <div className="flex justify-between text-md font-medium text-gray-900">
+              <div className="flex justify-between  text-sm sm:text-md font-medium text-gray-900">
                 <p>Subtotal</p>
                 <p>{cartTotalAmount.toLocaleString()} MMK</p>
               </div>
@@ -145,7 +134,7 @@ const CartPage = () => {
               <div className="mt-6">
                 <a
                   href="/stock/checkout"
-                  className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 duration-500 transition-all px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-blue-700"
+                  className="flex items-center px-4 py-2.5 justify-center rounded-md border border-transparent bg-blue-600 duration-500 transition-all sm:px-6 sm:py-3 text-base font-medium text-white shadow-xs hover:bg-blue-700"
                 >
                   Checkout
                 </a>
@@ -154,7 +143,7 @@ const CartPage = () => {
                 <p>
                   or{" "}
                   <button
-                  onClick={() => nav('/home')}
+                  onClick={() => nav('/')}
                     type="button"
                     className="font-medium text-blue-600 duration-500 hover:text-blue-500"
                   >

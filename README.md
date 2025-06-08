@@ -1,6 +1,6 @@
-# Stock POS React Project
+# React Ecommerce Project
 
-A web application for managing inventory and processing sales transactions. It allows users to track stock levels, manage products, and handle sales.
+The project showcases a complete online shopping experience, from product browsing to checkout, managing inventory and processing sales transactions. It allows users to track order , manage products, and handle sales.
 
 ## Features
 - Add, edit, and manage products

@@ -235,9 +235,10 @@ const CategoryTableComponent = ({
         aria-labelledby="responsive-dialog-title"
         sx={{
           "& .MuiDialog-paper": { minHeight: "500px", maxHeight: "100vh" },
-        }}
+      }}
       >
         <EditFormComponent
+        
           checkCategory={true}
           handleClose={handleClose}
           editId={editId}

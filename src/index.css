@@ -154,12 +154,21 @@
 } */
 
 body {
-  background-color: #fbfedb;
-  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+body.client-bg {
+  background-color: rgb(249, 250, 251);
+}
+
+body.admin-bg {
+  background-color: #f2fcff; 
+}
+
+* {
+  font-family: "Poppins";
 }
 
 .table-item {
   font-family: "Poppins";
 }
-
-

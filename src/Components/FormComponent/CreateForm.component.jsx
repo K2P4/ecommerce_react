@@ -11,7 +11,7 @@ import {
   FormControl,
   Snackbar,
 } from "@mui/material";
-
+import ImageIcon from "@mui/icons-material/Image";
 import {
   useCreateCategoryMutation,
   useGetCategoryQuery,
@@ -39,17 +39,17 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
     categoryId: "",
     description: "",
     images: [],
+    image: null,
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-
-    if(name == "discountPercentage"){
+    if (name == "discountPercentage") {
       const numberValue = Number(value);
 
-      if(numberValue > 99){
-        alert('Discount Percentage Must Be Shorter Than 99 %')
+      if (numberValue > 99) {
+        alert("Discount Percentage Must Be Shorter Than 99 %");
       }
     }
 
@@ -67,6 +67,13 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
   };
 
   const handleImageChange = (event) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: event.target.files[0],
+    }));
+  };
+
+  const handleImagesChange = (event) => {
     const files = Array.from(event.target.files);
 
     setFormData((prev) => ({
@@ -82,10 +89,13 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    const formDataApi = new FormData();
 
     if (checkCategory) {
       try {
-        const response = await uploadCategory(formData);
+        formDataApi.append("name", formData.name);
+        formDataApi.append("image", formData.image);
+        const response = await uploadCategory(formDataApi);
         if (response.data.success) {
           setSuccess(true);
         } else {
@@ -96,7 +106,6 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
         alert("Failed to create stock.");
       }
     } else {
-      const formDataApi = new FormData();
       formDataApi.append("code", formData.code);
       formDataApi.append("name", formData.name);
       formDataApi.append("price", formData.price);
@@ -114,8 +123,6 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
       } else {
         formDataApi.append("categoryId", "");
       }
-
-      console.log(formDataApi);
 
       try {
         const response = await uploadStock(formDataApi);
@@ -148,17 +155,45 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
           {/* Name */}
 
           {checkCategory && (
-            <div className=" mb-3  ">
-              <p>Name</p>
-              <input
-                required
-                className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
+            <Grid container spacing={5} className="">
+              <Grid item xl={12} sm={12} md={12} lg={12}>
+                <div className=" mb-3  ">
+                  <p>Name</p>
+                  <input
+                    required
+                    className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+              </Grid>
+
+              {/* Image */}
+
+              <Grid item xl={12} sm={12} md={12} lg={12}>
+                <p>Image</p>
+                <div
+                  onClick={imageDisplay}
+                  className=" h-[200px] flex items-center border-dashed w-full border rounded-xl cursor-pointer "
+                >
+                  <p className="text-center m-auto h-auto">
+                    {formData?.image != null && (
+                      <ImageIcon fontSize="200" className="text-3xl" />
+                    )}
+                  </p>
+
+                  <input
+                    ref={imageRef}
+                    className=" hidden "
+                    type="file"
+                    name="image"
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </Grid>
+            </Grid>
           )}
 
           {!checkCategory && (
@@ -215,29 +250,28 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
               </Grid>
 
               {/* Images */}
-              {!checkCategory && (
-                <Grid item xl={4} sm={4} md={4} lg={4}>
-                  <div
-                    onClick={imageDisplay}
-                    className=" h-full border-dashed w-full border rounded-xl cursor-pointer "
-                  >
-                    {formData?.images.length > 0 &&
-                      formData?.images?.map((img) => (
-                        <p className="text-sm line-clamp-1 mx-auto flex justify-center flex-col align-middle items-center mt-2 text-center text-gray-700">
-                          {img.name}
-                        </p>
-                      ))}
 
-                    <input
-                      ref={imageRef}
-                      className=" hidden "
-                      type="file"
-                      name="images"
-                      onChange={handleImageChange}
-                    />
-                  </div>
-                </Grid>
-              )}
+              <Grid item xl={4} sm={4} md={4} lg={4}>
+                <div
+                  onClick={imageDisplay}
+                  className=" h-full border-dashed w-full border rounded-xl cursor-pointer "
+                >
+                  {formData?.images.length > 0 &&
+                    formData?.images?.map((img) => (
+                      <p className="text-sm line-clamp-1 mx-auto flex justify-center flex-col align-middle items-center mt-2 text-center text-gray-700">
+                        {img.name}
+                      </p>
+                    ))}
+
+                  <input
+                    ref={imageRef}
+                    className=" hidden "
+                    type="file"
+                    name="images"
+                    onChange={handleImagesChange}
+                  />
+                </div>
+              </Grid>
             </Grid>
           )}
 

@@ -26,7 +26,6 @@ const OrderFormComponent = ({
   const [formData, setFormData] = useState(
     { status: statusId },
     { deliveryDate: null },
-    { payDate: null }
   );
 
   const orderStatus = [
@@ -146,21 +145,7 @@ const OrderFormComponent = ({
                   required
                 />
 
-                <label htmlFor="payDate">Pay Date</label>
-                <input
-                  type="date"
-                  id="payDate"
-                  name="payDate"
-                  value={formData.payDate || null}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      payDate: e.target.value,
-                    }))
-                  }
-                  className="border rounded-md p-2 mt-0"
-                  required
-                />
+         
               </div>
             )}
 
