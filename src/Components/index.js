@@ -15,6 +15,7 @@ export { default as EditForm } from "./FormComponent/EditForm.componet";
 export { default as CreateForm } from "./FormComponent/CreateForm.component";
 export { default as FormComponent } from "./FormComponent/FormData.component";
 export { default as InvoiceForm } from "./FormComponent/InvoiceForm.component";
+export { default as ContactFormComponent } from "./FormComponent/ContactForm.component";
 
 
 
@@ -51,8 +52,7 @@ export { default as SearchComponent } from "./Search/Search.component";
 
 
 //Overview
-export { default as InvoiceOverviewComponent } from "./Overview/InvoiceOverview.component";
-
+export { default as DashboardOverview} from "./Overview/DashboardOverview.component";
 //Banner
 export { default as MainComponent } from "./Banner/MainComponent";
 export { default as CollectionComponent } from "./Banner/CollectionComponent";

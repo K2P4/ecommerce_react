@@ -30,8 +30,6 @@ const OrderCurrentPage = () => {
     sort: sort,
   });
 
-
-
   const handleOpenInvoice = (orderNumber) => {
     setOpenInvoice(orderNumber);
   };
@@ -58,10 +56,6 @@ const OrderCurrentPage = () => {
       clearInterval(timer);
     };
   }, []);
-
-
-
-
 
   const handleAddToCart = (
     id,
@@ -104,12 +98,13 @@ const OrderCurrentPage = () => {
   };
 
   const getStatusClasses = (status) =>
-    `px-2 py-1 duration-500 rounded-md  w-[170px] mx-auto inline-block  hover:cursor-pointer text-center mx-auto text-xs ${statusClassMap[status] || statusClassMap[3]
+    `px-2 py-1 duration-500 rounded-md  w-[170px] mx-auto inline-block  hover:cursor-pointer text-center mx-auto text-xs ${
+      statusClassMap[status] || statusClassMap[3]
     }`;
 
   return (
     <div className="mt-2">
-      <ContainerComponent >
+      <ContainerComponent>
         <SearchComponent
           search={search}
           setSearch={setSearch}
@@ -131,7 +126,9 @@ const OrderCurrentPage = () => {
               className="w-xl m-auto  h-72  object-contain mb-0 "
             />
 
-            <p className="text-center text-gray-500 ">Your Oder List Is Empty</p>
+            <p className="text-center text-gray-500 ">
+              Your Oder List Is Empty
+            </p>
           </div>
         ) : (
           <div>
@@ -200,7 +197,9 @@ const OrderCurrentPage = () => {
                       <div className="grid grid-cols-12 gap-x-1 items-start">
                         <div className="col-span-2">
                           <img
-                            src={item?.image || "https://via.placeholder.com/70"}
+                            src={
+                              item?.image || "https://via.placeholder.com/70"
+                            }
                             alt={item?.name}
                             className="w-44 h-44 object-cover rounded-md"
                           />
@@ -232,10 +231,11 @@ const OrderCurrentPage = () => {
                         <div className="flex items-center gap-x-3">
                           <a
                             href={`/stock/${item.id}`}
-                            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                            className="text-sm font-medium text-black-500 duration-500  hover:text-black-800 "
                           >
                             View product
                           </a>
+                          |
                           <button
                             onClick={() =>
                               handleAddToCart(
@@ -248,7 +248,7 @@ const OrderCurrentPage = () => {
                                 item?.discount
                               )
                             }
-                            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                            className="text-sm cursor-pointer font-medium text-black-500 duration-500  hover:text-black-800 "
                           >
                             Buy again
                           </button>
@@ -261,17 +261,16 @@ const OrderCurrentPage = () => {
             })}
 
             {/* Pagination */}
-            {
-              data?.totalPages > 1 && <PaginationComponent page={page} setPage={setPage} total={data?.totalPages} />
-            }
-    
-
+            {data?.totalPages > 1 && (
+              <PaginationComponent
+                page={page}
+                setPage={setPage}
+                total={data?.totalPages}
+              />
+            )}
           </div>
         )}
-
       </ContainerComponent>
-
-
     </div>
   );
 };

@@ -96,12 +96,12 @@ const CheckOutPage = () => {
       <div className="text-xl  mb-17 font-semibold text-gray-800">
         <Link
           className="  text-left text-blue-400  border-b-blue-400 border-b"
-          to="/stock/cart"
+          to="/products/cart"
         >
           Cart List
         </Link>
         <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-        <Link to="/stock/checkout">Check Out</Link>
+        <Link to="/products/checkout">Check Out</Link>
       </div>
 
       <Grid container spacing={2}>

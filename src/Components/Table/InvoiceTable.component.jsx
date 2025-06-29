@@ -32,7 +32,6 @@ const InvoiceTableComponent = ({
     return moment(time).format("DD.MM.YYYY");
   };
 
-  console.log("invoices", invoices);
 
   const calculateTax = (items, delivery) => {
     const calculateSubTotal = items?.reduce((total, item) => {
@@ -77,7 +76,7 @@ const InvoiceTableComponent = ({
         sx={{
           maxWidth: "100%",
           margin: "auto",
-          marginTop: 0,
+             marginTop: 3,
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)",
           borderRadius: "10px",
         }}

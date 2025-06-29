@@ -1,12 +1,8 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useGetOrdersQuery } from "../../store/services/endpoints/order.endpoint";
-import {
-  InvoiceTableComponent,
-  SearchComponent,
-  InvoiceOverviewComponent,
-} from "../../Components";
+import { InvoiceTableComponent, SearchComponent } from "../../Components";
 
 const InvoicesPage = () => {
   const [selectedDate, setSelectedDate] = useState("");
@@ -24,28 +20,24 @@ const InvoicesPage = () => {
   return (
     <div>
       {/* nav route */}
-      <div className="flex items-center justify-between ">
-        <div className="text-xl font-semibold text-gray-800">
-          <Link
-            className="  text-left text-blue-400  border-b-blue-400 border-b"
-            to="/admin/dashboard"
-          >
-            Dashboard
-          </Link>
-          <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
-          <Link to="/invoices">Invoices</Link>
-        </div>
-
-        <SearchComponent
-          search={search}
-          setSearch={setSearch}
-          sort={sort}
-          setFinal={setFinal}
-          setSort={setSort}
-        />
+      <div className="text-xl font-semibold text-gray-800">
+        <Link
+          className="  text-left text-blue-400  border-b-blue-400 border-b"
+          to="/admin/dashboard"
+        >
+          Dashboard
+        </Link>
+        <ArrowForwardIosIcon className=" text-gray-500   mx-4" />
+        <Link to="/admin/invoice">Invoices</Link>
       </div>
 
-      <InvoiceOverviewComponent invoices={data?.data}  ordersData={data} />
+      <SearchComponent
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setFinal={setFinal}
+        setSort={setSort}
+      />
 
       {/* invoice table */}
       <InvoiceTableComponent

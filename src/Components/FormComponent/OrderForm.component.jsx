@@ -25,7 +25,7 @@ const OrderFormComponent = ({
   const [updateOrder] = useUpdateOrderMutation();
   const [formData, setFormData] = useState(
     { status: statusId },
-    { deliveryDate: null },
+    { deliveryDate: null }
   );
 
   const orderStatus = [
@@ -96,13 +96,19 @@ const OrderFormComponent = ({
         }}
       >
         <DialogTitle
-          sx={{ fontFamily: "Poppins", textAlign: "center" , display : "flex" , alignItems: "center" , justifyContent:"space-between" }}
+          sx={{
+            fontFamily: "Poppins",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
           id="responsive-dialog-title"
         >
-          <img
-            src="/logo-xpos.png"
-            className="size-full w-20  h-20 object-cover"
-          />
+          <p  className="text-lg font-semibold">
+            <span className="text-blue-600">X</span>PERFUMES
+          </p>
+        
           Edit Order
         </DialogTitle>
         <DialogContent>
@@ -144,8 +150,6 @@ const OrderFormComponent = ({
                   className="border rounded-md p-2 mt-0"
                   required
                 />
-
-         
               </div>
             )}
 

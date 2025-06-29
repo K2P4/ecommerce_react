@@ -1,38 +1,30 @@
 import React from "react";
 import { Users, ShoppingCart, Package, DollarSign } from "lucide-react";
 
-const InvoiceOverviewComponent = ({ ordersData, invoices }) => {
-
-  const totalProducts = invoices?.reduce((acc, invoice) => {
-    return invoice.items.length + acc;
-  }, 0);
-
-
-
-
+const DashboardOverview = ({ overviewData }) => {
   const stats = [
     {
       title: "Total Customers",
-      value: invoices?.length,
-      icon: <Users className="w-6 h-6 text-blue-600" />,
+      value: overviewData?.totalCustomers,
+      icon: <Users className="w-9 h-9 text-blue-600" />,
       bg: "bg-blue-50",
     },
     {
       title: "Total Transactions",
-      value: ordersData?.totalTransactions,
-      icon: <ShoppingCart className="w-6 h-6 text-green-600" />,
+      value: overviewData?.totalTransactions,
+      icon: <ShoppingCart className="w-9 h-9 text-green-600" />,
       bg: "bg-green-50",
     },
     {
       title: "Total Products",
-      value: totalProducts,
-      icon: <Package className="w-6 h-6 text-yellow-600" />,
+      value: overviewData?.totalProducts,
+      icon: <Package className="w-9 h-9 text-yellow-600" />,
       bg: "bg-yellow-50",
     },
     {
       title: "Total Amount",
-      value: `${Number(ordersData?.allTotalAmount).toLocaleString()} MMK`,
-      icon: <DollarSign className="w-6 h-6 text-red-600" />,
+      value: `${Number(overviewData?.totalAmount).toLocaleString()} MMK`,
+      icon: <DollarSign className="w-9 h-9 text-red-600" />,
       bg: "bg-red-50",
     },
   ];
@@ -43,7 +35,7 @@ const InvoiceOverviewComponent = ({ ordersData, invoices }) => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className={`rounded-md shadow-sm p-4 ${stat.bg} flex items-center justify-between`}
+            className={`rounded-md shadow-sm p-6 ${stat.bg} flex items-center justify-between`}
           >
             <div>
               <div className="text-sm text-gray-600 ">{stat.title}</div>
@@ -57,4 +49,4 @@ const InvoiceOverviewComponent = ({ ordersData, invoices }) => {
   );
 };
 
-export default InvoiceOverviewComponent;
+export default DashboardOverview;

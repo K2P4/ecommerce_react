@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AdminNav, NavComponent } from "./Components";
 import { Outlet } from "react-router-dom";
 import { useLazyGetProfileQuery } from "./store/services/endpoints/auth.endpoint";
@@ -6,12 +6,14 @@ import { useLazyGetProfileQuery } from "./store/services/endpoints/auth.endpoint
 const MainLayout = () => {
   const token = localStorage.getItem("token");
   const [trigger, { data, isLoading }] = useLazyGetProfileQuery();
+  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    if (token) {
+    if (token && !hasFetched) {
       trigger();
+      setHasFetched(true);
     }
-  }, [token]);
+  }, [token, hasFetched, trigger]);
 
   const isAdmin = data?.user?.isAdmin === 1;
   const isAdminRoute = location.pathname.startsWith("/admin");

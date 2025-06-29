@@ -14,6 +14,7 @@ export { default as OrderHistoryPage } from "./Admin/OrderHistory.page";
 //Shop Pages
 export { default as HomePage } from "./Shop/Home.page";
 export { default as AboutPage } from "./Shop/About.page";
+export { default as ContactUsPage } from "./Shop/ContactUs.page";
 export { default as CategoryDetailPage } from "./Shop/CategoryDetail.page";
 export { default as ProductsPage } from "./Shop/Products.page";
 export { default as ProductPage } from "./Shop/Product.page";
