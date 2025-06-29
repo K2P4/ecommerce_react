@@ -150,8 +150,8 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
       }
     }
 
-    // setLoading(false);
-    // handleClose();
+    setLoading(false);
+    handleClose();
   };
 
   return (

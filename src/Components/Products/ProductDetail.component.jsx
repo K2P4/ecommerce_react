@@ -6,7 +6,6 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Button, Skeleton, Chip, IconButton, Tooltip } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SecurityIcon from "@mui/icons-material/Security";
@@ -20,7 +19,6 @@ const ProductDetailComponent = () => {
   const [quantity, setQuantity] = useState(1);
   const [atcDisabled, atcSetDisabled] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const images = data?.stock?.images || [];
   const { addToCart, cart } = useContext(AllContext);
 
@@ -55,12 +53,14 @@ const ProductDetailComponent = () => {
     const stars = [];
     const fullStars = Math.floor(rating || 0);
     const hasHalfStar = (rating || 0) % 1 !== 0;
-    
+
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(<StarIcon key={i} className="text-amber-400 w-5 h-5" />);
       } else {
-        stars.push(<StarBorderIcon key={i} className="text-gray-300 w-5 h-5" />);
+        stars.push(
+          <StarBorderIcon key={i} className="text-gray-300 w-5 h-5" />
+        );
       }
     }
     return stars;
@@ -73,14 +73,17 @@ const ProductDetailComponent = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Image Skeleton */}
             <div className="space-y-4">
-              <Skeleton variant="rounded" className="w-full h-96 lg:h-[500px]" />
+              <Skeleton
+                variant="rounded"
+                className="w-full h-96 lg:h-[500px]"
+              />
               <div className="flex gap-2">
                 {[...Array(4)].map((_, i) => (
                   <Skeleton key={i} variant="rounded" className="w-20 h-20" />
                 ))}
               </div>
             </div>
-            
+
             {/* Content Skeleton */}
             <div className="space-y-6">
               <div className="space-y-3">
@@ -104,6 +107,20 @@ const ProductDetailComponent = () => {
     );
   }
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: document.title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert("Link copied!");
+      }
+    } catch (e) {
+      console.error("Share failed", e);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -113,7 +130,7 @@ const ProductDetailComponent = () => {
             Home
           </Link>
           <ArrowForwardIosIcon className="w-3 h-3" />
-          <Link 
+          <Link
             to={`/category/${data?.stock?.categoryId?._id}`}
             className="hover:text-blue-600 transition-colors"
           >
@@ -128,29 +145,18 @@ const ProductDetailComponent = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            {/* Main Image */}
             <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden group">
               <img
                 src={images[selectedImageIndex] || images[0]}
                 alt={data?.stock?.name}
                 className="w-full h-96 lg:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              
-              {/* Wishlist & Share buttons */}
+
+              {/* Share buttons */}
               <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <Tooltip title="Add to Wishlist">
-                  <IconButton
-                    onClick={() => setIsWishlisted(!isWishlisted)}
-                    className={`bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white transition-all ${
-                      isWishlisted ? 'text-red-500' : 'text-gray-600'
-                    }`}
-                    size="small"
-                  >
-                    <FavoriteIcon />
-                  </IconButton>
-                </Tooltip>
                 <Tooltip title="Share Product">
                   <IconButton
+                    onClick={handleShare}
                     className="bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white text-gray-600 transition-all"
                     size="small"
                   >
@@ -179,8 +185,8 @@ const ProductDetailComponent = () => {
                   onClick={() => setSelectedImageIndex(index)}
                   className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
                     selectedImageIndex === index
-                      ? 'border-blue-500 shadow-lg scale-105'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-500 shadow-lg scale-105"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <img
@@ -190,14 +196,13 @@ const ProductDetailComponent = () => {
                   />
                 </button>
               ))}
-
-              
-        
             </div>
 
-                {/* Description */}
+            {/* Description */}
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                Description
+              </h3>
               <p className="text-gray-600 leading-relaxed">
                 {data?.stock?.description || "No description available."}
               </p>
@@ -215,12 +220,14 @@ const ProductDetailComponent = () => {
                   className="text-blue-600 border-blue-200 bg-blue-50"
                   size="small"
                 />
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  data?.stock?.status === 0
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-red-100 text-red-700'
-                }`}>
-                  {data?.stock?.status === 0 ? ' In Stock' : ' Out of Stock'}
+                <div
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    data?.stock?.status === 0
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {data?.stock?.status === 0 ? " In Stock" : " Out of Stock"}
                 </div>
               </div>
 
@@ -257,7 +264,9 @@ const ProductDetailComponent = () => {
                         Save {data?.stock?.discountPercentage}%
                       </span>
                       <span className="text-sm text-gray-600">
-                        You save {Math.ceil(finalPrice - discountPrice).toLocaleString()} MMK
+                        You save{" "}
+                        {Math.ceil(finalPrice - discountPrice).toLocaleString()}{" "}
+                        MMK
                       </span>
                     </div>
                   </>
@@ -271,29 +280,38 @@ const ProductDetailComponent = () => {
 
             {/* Product Info */}
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Details</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Product Details
+              </h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="space-y-2">
                   <span className="text-gray-600">Size</span>
-                  <p className="font-medium text-gray-900">{data?.stock?.size} ml</p>
+                  <p className="font-medium text-gray-900">
+                    {data?.stock?.size} ml
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <span className="text-gray-600">Gender</span>
-                  <p className="font-medium text-gray-900">{data?.stock?.gender}</p>
+                  <p className="font-medium text-gray-900">
+                    {data?.stock?.gender}
+                  </p>
                 </div>
               </div>
             </div>
 
-
             {/* Quantity & Add to Cart */}
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Add to Cart</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900">
+                Add to Cart
+              </h3>
+
               <div className="flex items-center gap-4">
                 {/* Quantity Selector */}
                 <div className="flex items-center border-2 border-gray-200 rounded-xl">
                   <IconButton
-                    onClick={() => quantity > 1 && setQuantity(pre => pre - 1)}
+                    onClick={() =>
+                      quantity > 1 && setQuantity((pre) => pre - 1)
+                    }
                     disabled={quantity <= 1}
                     className="text-gray-600 hover:text-blue-600"
                     size="small"
@@ -304,7 +322,7 @@ const ProductDetailComponent = () => {
                     {quantity}
                   </span>
                   <IconButton
-                    onClick={() => setQuantity(pre => pre + 1)}
+                    onClick={() => setQuantity((pre) => pre + 1)}
                     className="text-gray-600 hover:text-blue-600"
                     size="small"
                   >
@@ -320,7 +338,7 @@ const ProductDetailComponent = () => {
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:bg-gray-300 disabled:transform-none disabled:shadow-none"
                   startIcon={<ShoppingCartIcon />}
                 >
-                  {atcDisabled ? 'Added to Cart' : 'Add to Cart'}
+                  {atcDisabled ? "Added to Cart" : "Add to Cart"}
                 </Button>
               </div>
 
