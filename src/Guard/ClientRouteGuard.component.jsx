@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import {
   useLazyGetProfileQuery,
 } from "../store/services/endpoints/auth.endpoint";
+import ProgressLoadingComponent from "../Components/Loading/ProgressLoading.component";
 
 const ClientRouteGuardComponent = () => {
   const token = localStorage.getItem("token");

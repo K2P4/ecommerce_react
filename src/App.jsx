@@ -9,6 +9,7 @@ import {
   CheckOutPage,
   ClientLoginPage,
   ClientRegisterPage,
+  ContactUsPage,
   DashboardPage,
   HomePage,
   InvoiceDetailPage,
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="contact-us" element={<ContactUsPage />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="category/:id" element={<CategoryDetailPage />} />
           </Route>
@@ -69,10 +71,10 @@ const App = () => {
             <Route path="order" element={<OrderTabComponent />} />
             <Route path="order/history" element={<OrderShopHistoryPage />} />
             <Route path="order/current" element={<OrderCurrentPage />} />
-            <Route path="stock" element={<ProductPage />} />
-            <Route path="stock/:id" element={<ProductDetailComponent />} />
-            <Route path="stock/cart" element={<AddToCartPage />} />
-            <Route path="stock/checkout" element={<CheckOutPage />} />
+            <Route path="products" element={<ProductPage />} />
+            <Route path="products/:id" element={<ProductDetailComponent />} />
+            <Route path="products/cart" element={<AddToCartPage />} />
+            <Route path="products/checkout" element={<CheckOutPage />} />
           </Route>
         </Route>
 

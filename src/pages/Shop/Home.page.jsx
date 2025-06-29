@@ -1,7 +1,7 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetCategoryQuery } from "../../store/services/endpoints/category.endpoint";
 import { useGetStocksQuery } from "../../store/services/endpoints/stock.endpoint";
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import {
   CollectionComponent,
   FooterComponent,
@@ -53,17 +53,22 @@ const HomePage = () => {
       <div className=" w-full h-1/4 bg-gradient-to-t from-white to-transparent"></div>
 
       {/* New Collection Section */}
-      <ProductListComponent
-        filterStock={productData?.data?.slice(0, 4)}
-        total={productData?.totalPage}
-        page={page}
-        setPage={setPage}
-        isLoading={isLoading}
-        headerText={"New Collection"}
-      />
+      <div id='new' >
+        <ProductListComponent
+          filterStock={productData?.data?.slice(0, 4)}
+          total={productData?.totalPage}
+          page={page}
+          setPage={setPage}
+          isLoading={isLoading}
+          headerText={"New Collection"}
+        />
+      </div>
 
       {/* Collection Section */}
+      <div id="collection">
       <CollectionComponent />
+        
+      </div>
 
       {/* Products Section */}
       <ProductListComponent
@@ -80,10 +85,7 @@ const HomePage = () => {
       />
 
       {/* ABout Us Section */}
-      <section
-        className="max-w-6xl mx-auto py-16 px-6 md:flex md:items-center md:gap-12"
-    
-      >
+      <section className="max-w-6xl mx-auto py-16 px-6 md:flex md:items-center md:gap-12">
         <div className="md:flex-1 mb-10 md:mb-0">
           <img
             src="/about-us.jpg"
@@ -100,19 +102,17 @@ const HomePage = () => {
           </p>
           <p className="text-lg text-gray-600 leading-relaxed mb-6">
             Every bottle is carefully crafted with the finest ingredients ...
-
           </p>
 
-             <Button
-             onClick={() => nav('/about')}
-          variant="outlined"
-          color="primary"
-          sx={{ fontWeight: "bold", px: 5, py: 1.5 , fontFamily: "Poppins"}}
-        >
-          Learn More
-        </Button>
+          <Button
+            onClick={() => nav("/about")}
+            variant="outlined"
+            color="black"
+            sx={{ fontWeight: "bold", px: 5, py: 1.5, fontFamily: "Poppins" }}
+          >
+            Learn More
+          </Button>
         </div>
-     
       </section>
 
       {/* Footer Section */}

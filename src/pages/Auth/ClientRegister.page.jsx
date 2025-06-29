@@ -62,16 +62,15 @@ const RegisterPage = () => {
     } else {
       setError(response.error.data.message);
     }
-
   };
 
   return (
     <div className="">
       <div className=" p-5 sm:p-0 flex flex-col justify-center  h-lvh   m-auto ">
-        <img
-          src="/logo-xpos.png"
-          className="size-full w-32 mx-auto h-24 object-cover"
-        />
+        <p className="text-xl mx-auto text-center mb-2 w-full font-semibold">
+          <span className="text-blue-600">X</span>PERFUMES
+        </p>
+
         <Formik
           validateOnChange={false}
           validateOnBlur={false}

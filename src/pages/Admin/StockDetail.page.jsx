@@ -73,12 +73,12 @@ const StockDetailPage = () => {
       ) : (
         <div className="grid grid-cols-12 items-center  gap-10">
           <div className="col-span-7">
-            <div className="flex gap-5 my-4 items-center align-middle h-[365px]">
+            <div className="flex gap-2 md:gap-5 h-[305px] my-4 items-center align-middle md:h-[420px]">
               <div className="flex flex-col gap-2">
                 {images.map((img, index) => (
                   <img
                     key={index}
-                    className="w-[180px] h-[85px] rounded-sm shadow-sm object-cover 
+                    className="w-[150px] h-[70px] md:w-[180px] md:h-[135px] rounded-sm shadow-sm object-cover 
                         border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform"
                     src={img}
                     onMouseEnter={() => setSelectedImage(img)}
@@ -93,7 +93,7 @@ const StockDetailPage = () => {
             </div>
           </div>
 
-          {/* Right - Product Details */}
+          {/* Product Details */}
           <div className="col-span-5 space-y-3 ">
             <div>
               <p className="text-lg capitalize text-gray-600 mb-1">
@@ -115,7 +115,7 @@ const StockDetailPage = () => {
                 )}
               </div>
 
-              <p className="text-md text-gray-500">
+              <p className="text-md  line-clamp-2 text-gray-500">
                 {data?.stock?.description || "No description available."}
               </p>
             </div>
@@ -123,12 +123,12 @@ const StockDetailPage = () => {
             <div>
               {data?.stock?.discountPercentage && (
                 <div>
-                  <div className="flex items-center gap-10 ">
+                  <div className="flex items-center justify-between  ">
                     <p className="text-lg font-semibold ">
                       KS {Math.ceil(discountPrice)}
                     </p>
 
-                    <span className="   text-center  px-3  py-1 rounded-md  bg-orange-300 text-orange-500  hover:cursor-pointer hover:text-orange-600  font-medium text-xs  ">
+                    <span className="   text-center  px-3  py-1 rounded-md   text-emerald-500  hover:cursor-pointer  hover:text-emerald-800 duration-700  font-medium text-sm  ">
                       {data?.stock?.discountPercentage}%
                     </span>
                   </div>
@@ -162,9 +162,17 @@ const StockDetailPage = () => {
                 )}
               </div>
 
+              {/* Size */}
+              <div className="text-gray-700 font-semibold ">Size </div>
+              <p className="text-gray-600">: {data?.stock?.size} ml</p>
+
               {/* In Stock */}
               <div className="text-gray-700 font-semibold ">Instock </div>
               <p className="text-gray-600">: {data?.stock?.inStock}</p>
+
+               {/* Gender */}
+              <div className="text-gray-700 font-semibold ">Gender </div>
+              <p className="text-gray-600">: {data?.stock?.gender}</p>
 
               {/* Reorder Level */}
               <div className="text-gray-700 font-semibold ">Reorder Level </div>

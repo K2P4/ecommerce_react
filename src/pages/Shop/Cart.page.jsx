@@ -72,7 +72,7 @@ const CartPage = () => {
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
                                 <a
-                                  href={`/stock/${product.id}`}
+                                  href={`/products/${product.id}`}
                                   className="text-sm md:text-base text-black hover:underline text-nowrap duration-500 cursor-pointer "
                                 >
                                   {product?.name}
@@ -133,7 +133,7 @@ const CartPage = () => {
               </p>
               <div className="mt-6">
                 <a
-                  href="/stock/checkout"
+                  href="/products/checkout"
                   className="flex items-center px-4 py-2.5 justify-center rounded-md border border-transparent bg-blue-600 duration-500 transition-all sm:px-6 sm:py-3 text-base font-medium text-white shadow-xs hover:bg-blue-700"
                 >
                   Checkout

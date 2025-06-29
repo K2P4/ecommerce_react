@@ -2,24 +2,17 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useOrderDetailQuery } from "../../store/services/endpoints/order.endpoint";
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button,
   Divider,
   Grid,
   CircularProgress,
-  IconButton,
   Stack,
-  Typography, TextField, Paper, List, ListItem, ListItemText
+
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import AttachmentIcon from "@mui/icons-material/Attachment";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import moment from "moment";
 import InvoiceFormComponent from "../../Components/FormComponent/InvoiceForm.component";
 import { useSendInvoiceMutation } from "../../store/services/endpoints/invoice.endpoint";
@@ -35,7 +28,6 @@ const InvoiceDetailPage = () => {
   const calculateSubTotal = data?.order?.items?.reduce((total, item) => {
     return total + item.price;
   }, 0);
-  // const deliveryFee = data?.order?.deliveryType == 0 ? 3000 : 5000;
 
   const total_discount_amount = data?.order?.items?.reduce((acc, item) => {
     const original_price = item.price / (1 - item.discount / 100);
@@ -81,12 +73,12 @@ const InvoiceDetailPage = () => {
         >
           Invoice Lists
         </Link>
-        <ArrowForwardIosIcon className=" text-gray-500   mx-4" /> Order{" "}
+        <ArrowForwardIosIcon className=" text-gray-500   mx-4" /> Invoice{" "}
         {data?.order?.invoiceNumber}
       </div>
 
       <div className="bg-white rounded-md shadow-md overflow-hidden">
-        {/* Top Bar */}
+   
         <div className="px-4 py-3 flex items-center justify-between bg-gray-50 border-b border-gray-200">
           <div>
             <span className="font-medium text-xl mr-4">
@@ -114,7 +106,7 @@ const InvoiceDetailPage = () => {
           )}
         </div>
 
-        {/* Action Buttons */}
+        {/* Action  */}
         <div className="px-4 py-2 bg-blue-50">
           <Stack direction="row" spacing={1} alignItems="center">
             <InvoiceFormComponent />
@@ -145,138 +137,138 @@ const InvoiceDetailPage = () => {
 
         {/* Summary */}
         <div className="p-4">
-          <Typography
+          <p
             sx={{ fontFamily: "Poppins" }}
             variant="h6"
             className=" font-medium "
           >
             Summary
-          </Typography>
+          </p>
           <hr className="my-4" />
           <Grid container spacing={2}>
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Invoice ID
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={3}>
-              <Typography sx={{ fontFamily: "Poppins" }}>
+              <p sx={{ fontFamily: "Poppins" }}>
                 INV-{data?.order?.invoiceNumber}
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Email
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={7}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 className="text-blue-500"
               >
                 <a target="_blank" href={`mailto:${data?.order?.email}`}>
                   {data?.order?.email}
                 </a>
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Currency
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={3}>
-              <Typography sx={{ fontFamily: "Poppins" }}>MMK</Typography>
+              <p sx={{ fontFamily: "Poppins" }}>MMK</p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Name
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={7}>
-              <Typography sx={{ fontFamily: "Poppins" }}>
+              <p sx={{ fontFamily: "Poppins" }}>
                 {data?.order?.name}
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Start Date
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={3}>
-              <Typography sx={{ fontFamily: "Poppins" }}>
+              <p sx={{ fontFamily: "Poppins" }}>
                 {moment(data?.order?.createdAt).format("D.M.Y")}
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Billing Details
-              </Typography>
+              </p>
             </Grid>
             <Grid item xs={6} sm={3} md={7}>
-              <Typography sx={{ fontFamily: "Poppins" }}>
+              <p sx={{ fontFamily: "Poppins" }}>
                 {data?.order?.payDate
                   ? moment(data?.order?.payDate).format("D.M.Y")
                   : "Pending"}
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Note
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={3}>
-              <Typography sx={{ fontFamily: "Poppins" }}>None</Typography>
+              <p sx={{ fontFamily: "Poppins" }}>None</p>
             </Grid>
 
 
             <Grid item xs={6} sm={3} md={1}>
-              <Typography
+              <p
                 sx={{ fontFamily: "Poppins" }}
                 variant="subtitle2"
                 color="textSecondary"
               >
                 Status
-              </Typography>
+              </p>
             </Grid>
 
             <Grid item xs={6} sm={3} md={7}>
-              <Typography sx={{ fontFamily: "Poppins" }}>
+              <p sx={{ fontFamily: "Poppins" }}>
                 {data?.order?.invoiceId?.status}
-              </Typography>
+              </p>
             </Grid>
           </Grid>
 
@@ -331,10 +323,10 @@ const InvoiceDetailPage = () => {
           {/* Total Calculations */}
           <div className="mt-2 flex flex-col space-y-2 items-end mr-5">
             <div className="flex justify-between w-64">
-              <Typography sx={{ fontFamily: "Poppins" }} variant="subtitle1">
+              <p sx={{ fontFamily: "Poppins" }} variant="subtitle1">
                 Sub Total
-              </Typography>
-              <Typography
+              </p>
+              <p
                 sx={{
                   fontFamily: "Poppins",
                   fontWeight: "medium",
@@ -342,14 +334,14 @@ const InvoiceDetailPage = () => {
                 }}
               >
                 {calculateSubTotal?.toLocaleString()} MMK
-              </Typography>
+              </p>
             </div>
 
             <div className="flex justify-between w-64 ">
-              <Typography sx={{ fontFamily: "Poppins", color: 'gray' }} variant="subtitle1">
+              <p sx={{ fontFamily: "Poppins", color: 'gray' }} variant="subtitle1">
                 Discount
-              </Typography>
-              <Typography
+              </p>
+              <p
                 sx={{
                   fontFamily: "Poppins",
                   fontWeight: "medium",
@@ -357,14 +349,14 @@ const InvoiceDetailPage = () => {
                 }}
               >
                 {total_discount_amount?.toLocaleString()} MMK
-              </Typography>
+              </p>
             </div>
 
             <div className="flex justify-between w-64">
-              <Typography sx={{ fontFamily: "Poppins", color: 'gray' }} variant="subtitle1">
+              <p sx={{ fontFamily: "Poppins", color: 'gray' }} variant="subtitle1">
                 Tax
-              </Typography>
-              <Typography
+              </p>
+              <p
                 sx={{
                   fontFamily: "Poppins",
                   fontWeight: "medium",
@@ -372,14 +364,14 @@ const InvoiceDetailPage = () => {
                 }}
               >
                 {taxAmount.toLocaleString()} MMK
-              </Typography>
+              </p>
             </div>
             <Divider className=" w-72 " />
             <div className="flex justify-between w-64 mt-2 ">
-              <Typography sx={{ fontFamily: "Poppins" }} variant="subtitle1">
+              <p sx={{ fontFamily: "Poppins" }} variant="subtitle1">
                 Total Amount
-              </Typography>
-              <Typography
+              </p>
+              <p
                 sx={{
                   fontFamily: "Poppins",
                   fontWeight: "medium",
@@ -387,60 +379,12 @@ const InvoiceDetailPage = () => {
                 }}
               >
                 {data?.order?.totalAmount?.toLocaleString()} MMK
-              </Typography>
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-col md:flex-row gap-6 p-4 border-t w-full border-gray-200">
-          {/* Log Activity */}
-          <div className="flex-1">
-            <div className="">
-              <h1
-                variant="h1" className="mb-3 font-medium text-xl text-gray-800">
-                Logs
-              </h1>
-              {data?.order?.invoiceId?.logs?.map((log, index) => (
-                <div key={index} className="flex items-center mb-2">
-                  <div className="mr-2 cursor-pointer bg-blue-400 hover:bg-blue-300 duration-700 transition-all
-                     rounded-full p-1">{log.icon}</div>
-                  <div>
-                    <p>{log.message}</p>
-                    <p variant="caption" className="text-gray-500 text-sm m-0">
-                      {moment(log.date).format("DD.MMMM.YYYY , hh:mmA")}
-                    </p>
-                  </div>
-                </div>
-              ))}
-
-
-            </div>
-
-          </div>
-
-          {/* Attachments */}
-          <div className="flex-1">
-            <h1 variant="h6" className="mb-3">
-              Attachments
-            </h1>
-
-
-            {data?.order?.invoiceId?.logs?.map((attachment, index) => (
-              <div key={index} className="flex items-center mb-2">
-                <InsertDriveFileIcon className="mr-2" color="action" />
-                <div>
-                  <Typography>{attachment.name}</Typography>
-                  <Typography variant="caption" color="textSecondary">
-                    {attachment.size}
-                  </Typography>
-                </div>
-              </div>
-            ))}
-
-
-          </div>
-        </div>
+  
 
       </div>
     </div>

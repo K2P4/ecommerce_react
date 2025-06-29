@@ -15,42 +15,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import { useLogoutMutation } from "../../store/services/endpoints/auth.endpoint";
 import { AllContext } from "../../context/AllContext";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useGetOrdersQuery } from "../../store/services/endpoints/order.endpoint";
 
 const AdminNavComponent = () => {
   const location = useLocation();
   const { setLogout } = useContext(AllContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [cartAnchor, setCartAnchor] = React.useState(null);
   const { data } = useGetOrdersQuery({});
 
-
-
-  // const cartOpen = Boolean(cartAnchor);
-
-  // const handleCart = (event) => {
-  //   setCartAnchor(event.currentTarget);
-  // };
-
-  // const open = Boolean(anchorEl);
-
-  // const handleCloseCart = () => {
-  //   setCartAnchor(null);
-  // };
-
-  // const handleOrder = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleCloseOrder = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // const [logoutFun] = useLogoutMutation();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -78,9 +50,9 @@ const AdminNavComponent = () => {
       <List>
         {/* Dashboard */}
         <ListItem
-          button
+          
           className={`cursor-pointer `}
-          component={Link}
+           component={Link}
           to="/admin/dashboard"
           sx={{ mb: 3, mt: 5 }}
         >
@@ -96,7 +68,7 @@ const AdminNavComponent = () => {
 
         {/* Category */}
         <ListItem
-          button
+          
           className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           component={Link}
           to="/admin/category"
@@ -115,7 +87,7 @@ const AdminNavComponent = () => {
         {/* Stock */}
 
         <ListItem
-          button
+          
           className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           component={Link}
           to="/admin/stock"
@@ -134,7 +106,7 @@ const AdminNavComponent = () => {
         {/* order */}
 
         <ListItem
-          button
+          
           className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           component={Link}
           to="/admin/order/history"
@@ -143,7 +115,6 @@ const AdminNavComponent = () => {
           <ListItemIcon>
             <Badge
               badgeContent={data?.pendingCount}
-              smalls
               sx={{
                 "& .MuiBadge-badge": {
                   backgroundColor: "#FF6900",
@@ -163,7 +134,7 @@ const AdminNavComponent = () => {
 
         {/* Invoices */}
         <ListItem
-          button
+          
           className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           component={Link}
           to="/admin/invoices"
@@ -180,8 +151,8 @@ const AdminNavComponent = () => {
         </ListItem>
 
         {/* Profile */}
-        <ListItem
-          button
+        {/* <ListItem
+          
           className=" cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           component={Link}
           to="/admin/profile"
@@ -195,12 +166,12 @@ const AdminNavComponent = () => {
             />
           </ListItemIcon>
           <ListItemText />
-        </ListItem>
+        </ListItem> */}
 
         {/* Signout */}
         <ListItem
           onClick={handleLogout}
-          button
+          
           className=" 
            mt-[200px] cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out "
           sx={{ mb: 5 }}

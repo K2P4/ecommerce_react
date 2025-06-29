@@ -3,8 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { useDetailStockQuery } from "../../store/services/endpoints/stock.endpoint";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import StarIcon from "@mui/icons-material/Star";
-import { Button, Skeleton } from "@mui/material";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { Button, Skeleton, Chip, IconButton, Tooltip } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import SecurityIcon from "@mui/icons-material/Security";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { AllContext } from "../../context/AllContext";
 import RecommendProductComponent from "./RecommendProduct.component";
@@ -12,21 +17,18 @@ import RecommendProductComponent from "./RecommendProduct.component";
 const ProductDetailComponent = () => {
   const { id } = useParams();
   const { data, isLoading } = useDetailStockQuery(id);
-  const [quantity, setQuanity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [atcDisabled, atcSetDisabled] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isWishlisted, setIsWishlisted] = useState(false);
   const images = data?.stock?.images || [];
-  const [selectedImage, setSelectedImage] = useState("");
   const { addToCart, cart } = useContext(AllContext);
-
 
   useEffect(() => {
     const existingItem = cart.find((item) => item.id === data?.stock?._id);
-
     if (existingItem) {
-      if (existingItem) {
-        setQuanity(existingItem.quantity);
-        atcSetDisabled(true);
-      }
+      setQuantity(existingItem.quantity);
+      atcSetDisabled(true);
     }
   }, [cart, data]);
 
@@ -47,162 +49,305 @@ const ProductDetailComponent = () => {
 
   const discountPrice =
     data?.stock?.price * (1 - data?.stock?.discountPercentage / 100) * quantity;
-
   const finalPrice = quantity * data?.stock?.price;
 
-  console.log("catData", data);
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating || 0);
+    const hasHalfStar = (rating || 0) % 1 !== 0;
+    
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(<StarIcon key={i} className="text-amber-400 w-5 h-5" />);
+      } else {
+        stars.push(<StarBorderIcon key={i} className="text-gray-300 w-5 h-5" />);
+      }
+    }
+    return stars;
+  };
 
-  return (
-    <div>
-
-
-      {isLoading ? (
-        <div className="flex items-center   container  w-full gap-15 mx-auto ">
-          <Skeleton variant="rounded" width={450} height={250} />
-
-          <div className="space-y-1">
-            <Skeleton variant="rounded" width={250} height={15} />
-            <Skeleton
-              className="mb-3"
-              variant="rounded"
-              width={200}
-              height={15}
-            />
-            <Skeleton variant="rounded" width={700} height={10} />
-            <Skeleton variant="rounded" width={700} height={10} />
-            <Skeleton variant="rounded" width={700} height={10} />
-            <Skeleton variant="rounded" width={700} height={10} />
-            <Skeleton variant="rounded" width={700} height={10} />
-          </div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-12 items-center p-5 container w-full  gap-10">
-          <div className="col-span-12 md:col-span-7">
-            <div className="flex gap-2 md:gap-5 h-[305px] my-4 items-center align-middle md:h-[365px]">
-              <div className="flex flex-col gap-2">
-                {images.map((img, index) => (
-                  <img
-                    key={index}
-                    className="w-[150px] h-[70px] md:w-[180px] md:h-[85px] rounded-sm shadow-sm object-cover 
-                        border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform"
-                    src={img}
-                    onMouseEnter={() => setSelectedImage(img)}
-                  />
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Image Skeleton */}
+            <div className="space-y-4">
+              <Skeleton variant="rounded" className="w-full h-96 lg:h-[500px]" />
+              <div className="flex gap-2">
+                {[...Array(4)].map((_, i) => (
+                  <Skeleton key={i} variant="rounded" className="w-20 h-20" />
                 ))}
               </div>
-              <img
-                className="w-full h-full border-gray-100 duration-500 rounded-sm shadow-sm object-cover"
-                src={selectedImage || images[0]}
-                alt="No Image"
-              />
+            </div>
+            
+            {/* Content Skeleton */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <Skeleton variant="text" className="w-32 h-6" />
+                <Skeleton variant="text" className="w-full h-10" />
+                <Skeleton variant="text" className="w-3/4 h-6" />
+              </div>
+              <div className="space-y-2">
+                {[...Array(5)].map((_, i) => (
+                  <Skeleton key={i} variant="text" className="w-full h-4" />
+                ))}
+              </div>
+              <div className="flex gap-4">
+                <Skeleton variant="rounded" className="w-32 h-12" />
+                <Skeleton variant="rounded" className="w-40 h-12" />
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          {/* Right - Product Details */}
-          <div className=" col-span-12 md:col-span-5 space-y-3 ">
-            <div>
-              <p className="text-lg capitalize text-gray-600 mb-1">
-                {data?.stock?.categoryId?.name || ""}
-              </p>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-8">
+          <Link to="/" className="hover:text-blue-600 transition-colors">
+            Home
+          </Link>
+          <ArrowForwardIosIcon className="w-3 h-3" />
+          <Link 
+            to={`/category/${data?.stock?.categoryId?._id}`}
+            className="hover:text-blue-600 transition-colors"
+          >
+            {data?.stock?.categoryId?.name}
+          </Link>
+          <ArrowForwardIosIcon className="w-3 h-3" />
+          <span className="text-gray-900 font-medium truncate">
+            {data?.stock?.name}
+          </span>
+        </nav>
 
-              <div className="flex items-center  justify-between ">
-                <h1 className="font-bold text-3xl text-gray-800 mb-4">
-                  {data?.stock?.name}{" "}
-                </h1>
-                {data?.stock?.status == 0 ? (
-                  <span className="text-xs px-2 py-1 rounded-lg text-center  bg-emerald-200 text-emerald-600 hover:bg-emerald-300 hover:text-emerald-800 duration-700 transition-all ease-in">
-                    Available
-                  </span>
-                ) : (
-                  <span className="text-xs px-2 py-1 rounded-lg text-center  bg-orange-200 text-orange-600 hover:bg-orange-300 hover:text-orange-800 duration-700 transition-all ease-in">
-                    Out Of Stocks
-                  </span>
-                )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Product Images */}
+          <div className="space-y-4">
+            {/* Main Image */}
+            <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden group">
+              <img
+                src={images[selectedImageIndex] || images[0]}
+                alt={data?.stock?.name}
+                className="w-full h-96 lg:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              
+              {/* Wishlist & Share buttons */}
+              <div className="absolute top-4 right-4 flex flex-col gap-2">
+                <Tooltip title="Add to Wishlist">
+                  <IconButton
+                    onClick={() => setIsWishlisted(!isWishlisted)}
+                    className={`bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white transition-all ${
+                      isWishlisted ? 'text-red-500' : 'text-gray-600'
+                    }`}
+                    size="small"
+                  >
+                    <FavoriteIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Share Product">
+                  <IconButton
+                    className="bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white text-gray-600 transition-all"
+                    size="small"
+                  >
+                    <ShareIcon />
+                  </IconButton>
+                </Tooltip>
               </div>
 
-              <p className="text-md text-gray-500">
-                {data?.stock?.description || "No description available."}
-              </p>
-            </div>
-            {/* Price */}
-            <div>
-              {data?.stock?.discountPercentage && (
-                <div>
-                  <div className="flex items-center gap-10 ">
-                    <p className="text-lg font-semibold  text-blue-700 ">
-                       {Math.ceil(discountPrice)} MMK
-                    </p>
-
-                    <span className=" text-emerald-600 text-sm font-medium ml-auto">
-                      Save {data?.stock?.discountPercentage}%
-                    </span>
-                  </div>
-
-                  <p
-                    className={` ${data?.stock?.discountPercentage
-                        ? " line-through text-gray-400 "
-                        : "text-xl font-semibold"
-                      }`}
-                  >
-                     {Math.ceil(finalPrice)} MMK
-                  </p>
+              {/* Discount Badge */}
+              {data?.stock?.discountPercentage > 0 && (
+                <div className="absolute top-4 left-4">
+                  <Chip
+                    label={`-${data?.stock?.discountPercentage}%`}
+                    className="bg-red-500 text-white font-semibold shadow-lg"
+                    size="small"
+                  />
                 </div>
               )}
             </div>
 
-            <div>
-              {/* Rating & Status */}
-              <div className="flex items-center gap-4 mb-4">
-                <p className="text-lg text-gray-600 flex items-center">
-                  {Array.from(
-                    { length: data?.stock?.rating || 0 },
-                    (_, index) => (
-                      <StarIcon key={index} className="text-yellow-500 mr-1" />
-                    )
-                  )}
-                </p>
+            {/* Thumbnail Images */}
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
+                    selectedImageIndex === index
+                      ? 'border-blue-500 shadow-lg scale-105'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`${data?.stock?.name} ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+
+              
+        
+            </div>
+
+                {/* Description */}
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
+              <p className="text-gray-600 leading-relaxed">
+                {data?.stock?.description || "No description available."}
+              </p>
+            </div>
+          </div>
+
+          {/* Product Details */}
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Chip
+                  label={data?.stock?.categoryId?.name || "Product"}
+                  variant="outlined"
+                  className="text-blue-600 border-blue-200 bg-blue-50"
+                  size="small"
+                />
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  data?.stock?.status === 0
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700'
+                }`}>
+                  {data?.stock?.status === 0 ? ' In Stock' : ' Out of Stock'}
+                </div>
+              </div>
+
+              <h1 className="text-3xl font-bold text-gray-900 leading-tight">
+                {data?.stock?.name}
+              </h1>
+
+              {/* Rating */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center">
+                  {renderStars(data?.stock?.rating)}
+                </div>
+                <span className="text-sm text-gray-600">
+                  ({data?.stock?.rating || 0}/5)
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-5">
-              {/* Quantity Button */}
-              <Button
-                elevation
-                variant="contained"
-                color="primary"
-                className="flex items-center py-2  gap-5 bg-blue-500 "
-              >
-                <PlusIcon
-                  className="  hover:bg-blue-500 active:scale-95 duration-500 transition-all rounded-full  "
-                  onClick={() => quantity > 0 && setQuanity((pre) => pre + 1)}
-                />
-                <span className="py-1  font-medium  ">{quantity}</span>
-                <MinusIcon
-                  onClick={() => quantity > 1 && setQuanity((pre) => pre - 1)}
-                  className="  hover:bg-blue-500 active:scale-95 duration-500 transition-all rounded-full "
-                />
-              </Button>
+            {/* Price */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="space-y-3">
+                {data?.stock?.discountPercentage > 0 ? (
+                  <>
+                    <div className="flex items-center gap-4">
+                      <span className="text-3xl font-bold text-gray-900">
+                        {Math.ceil(discountPrice).toLocaleString()} MMK
+                      </span>
+                      <span className="text-lg text-gray-400 line-through">
+                        {Math.ceil(finalPrice).toLocaleString()} MMK
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-sm font-medium">
+                        Save {data?.stock?.discountPercentage}%
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        You save {Math.ceil(finalPrice - discountPrice).toLocaleString()} MMK
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <span className="text-3xl font-bold text-gray-900">
+                    {Math.ceil(finalPrice).toLocaleString()} MMK
+                  </span>
+                )}
+              </div>
+            </div>
 
-              {/* Add to Cart Button */}
-              <Button
-                disabled={atcDisabled}
-                variant="contained"
-                color="primary"
-                onClick={handleAddToCart}
-                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600"
-              >
-                <ShoppingCartIcon /> <span className="py-1">Add to cart</span>
-              </Button>
+            {/* Product Info */}
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Details</h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <span className="text-gray-600">Size</span>
+                  <p className="font-medium text-gray-900">{data?.stock?.size} ml</p>
+                </div>
+                <div className="space-y-2">
+                  <span className="text-gray-600">Gender</span>
+                  <p className="font-medium text-gray-900">{data?.stock?.gender}</p>
+                </div>
+              </div>
+            </div>
+
+
+            {/* Quantity & Add to Cart */}
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Add to Cart</h3>
+              
+              <div className="flex items-center gap-4">
+                {/* Quantity Selector */}
+                <div className="flex items-center border-2 border-gray-200 rounded-xl">
+                  <IconButton
+                    onClick={() => quantity > 1 && setQuantity(pre => pre - 1)}
+                    disabled={quantity <= 1}
+                    className="text-gray-600 hover:text-blue-600"
+                    size="small"
+                  >
+                    <MinusIcon className="w-4 h-4" />
+                  </IconButton>
+                  <span className="px-4 py-2 font-semibold text-gray-900 min-w-[60px] text-center">
+                    {quantity}
+                  </span>
+                  <IconButton
+                    onClick={() => setQuantity(pre => pre + 1)}
+                    className="text-gray-600 hover:text-blue-600"
+                    size="small"
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                  </IconButton>
+                </div>
+
+                {/* Add to Cart Button */}
+                <Button
+                  disabled={atcDisabled || data?.stock?.status !== 0}
+                  variant="contained"
+                  onClick={handleAddToCart}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:bg-gray-300 disabled:transform-none disabled:shadow-none"
+                  startIcon={<ShoppingCartIcon />}
+                >
+                  {atcDisabled ? 'Added to Cart' : 'Add to Cart'}
+                </Button>
+              </div>
+
+              {/* Features */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <LocalShippingIcon className="w-5 h-5 text-green-600" />
+                  <span>Free shipping over 100,000 MMK</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <SecurityIcon className="w-5 h-5 text-blue-600" />
+                  <span>Secure payment guaranteed</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      )}
 
-      <RecommendProductComponent
-        categoryName={data?.stock?.categoryId?.name}
-        isLoading={isLoading}
-        featureData={data?.stockDataByCategory}
-      />
+        {/* Recommendations */}
+        <div className="mt-16">
+          <RecommendProductComponent
+            categoryName={data?.stock?.categoryId?.name}
+            isLoading={isLoading}
+            featureData={data?.stockDataByCategory}
+          />
+        </div>
+      </div>
     </div>
   );
 };

@@ -70,7 +70,7 @@ const CategoryDetailPage = () => {
   };
 
   const filterCategory = categoryData?.data?.find((data) => data._id == id);
-
+  console.log("data", filterCategory);
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
@@ -120,20 +120,19 @@ const CategoryDetailPage = () => {
           colors={colors}
         />
 
-        {/* Products Content Area */}
+        {/* Category Header*/}
         <div className="flex-1 p-5">
           {filterCategory?.name && (
-            <div
-              className="relative w-full h-38 mb-4 rounded-xl shadow-lg overflow-hidden flex items-end"
-              style={{
-                backgroundImage: `url(${filterCategory?.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
+            <div className="relative w-full h-40 mb-4 rounded-xl shadow-lg overflow-hidden">
+              <img
+                src={filterCategory.image}
+                alt={filterCategory.name}
+                className="absolute inset-0  w-full h-full object-cover"
+              />
+          
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <span className="relative z-10 p-4 text-white text-xl font-bold">
-                {filterCategory?.name}
+              <span className="relative z-10 p-4 text-white text-xl font-bold flex items-end h-full">
+                {filterCategory.name}
               </span>
             </div>
           )}

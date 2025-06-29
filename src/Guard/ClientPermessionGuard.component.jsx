@@ -1,7 +1,6 @@
 import { React, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import {
-  useGetProfileQuery,
   useLazyGetProfileQuery,
 } from "../store/services/endpoints/auth.endpoint";
 import { ProgressLoadingComponent } from "../Components";

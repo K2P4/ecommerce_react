@@ -169,8 +169,8 @@ const ProductsListComponent = ({
                         )}
                         <div className="text-sm font-semibold my-5 flex items-center justify-between">
                           <a
-                            href={`/stock/${item?._id}`}
-                            className="text-blue-600 hover:text-blue-800 transition duration-500 "
+                            href={`/products/${item?._id}`}
+                            className="text-black-600 hover:text-black-800 transition duration-500 "
                           >
                             View Product
                           </a>

@@ -29,8 +29,13 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
   });
   const imageRef = useRef();
 
+  const genderList = ["Men", "Women", "Unisex"];
+
   const [formData, setFormData] = useState({
     code: "",
+    brand: "",
+    size: "",
+    gender: "Unisex",
     name: "",
     price: "",
     discountPercentage: "",
@@ -66,6 +71,12 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
     }));
   };
 
+  const handleGenderChange = (event) => {
+    setFormData((prev) => ({
+      ...prev,
+      gender: event.target.value,
+    }));
+  };
   const handleImageChange = (event) => {
     setFormData((prev) => ({
       ...prev,
@@ -112,6 +123,7 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
       formDataApi.append("discountPercentage", formData.discountPercentage);
       formDataApi.append("inStock", Number(formData.inStock));
       formDataApi.append("reorderLevel", Number(formData.reorderLevel));
+      formDataApi.append("size", Number(formData.size));
       formDataApi.append("description", formData.description);
 
       formData.images.forEach((image) => {
@@ -138,8 +150,8 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
       }
     }
 
-    setLoading(false);
-    handleClose();
+    // setLoading(false);
+    // handleClose();
   };
 
   return (
@@ -201,9 +213,7 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
               {/* Form Section One */}
               <Grid item xl={7} sm={7} md={7} lg={7}>
                 <div>
-                  {/* Code */}
-
-                  <div className=" mb-3 ">
+                  {/* <div className=" mb-3 ">
                     <p>Code</p>
                     <input
                       className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
@@ -212,7 +222,7 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
                       value={formData.code}
                       onChange={handleChange}
                     />
-                  </div>
+                  </div> */}
 
                   {/* Name */}
                   <div className=" mb-3  ">
@@ -227,21 +237,46 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
                     />
                   </div>
 
-                  {/* Price */}
+                  <div className=" mb-3 ">
+                    <p>Brand</p>
+                    <input
+                      className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
+                      type="text"
+                      name="brand"
+                      value={formData.brand}
+                      onChange={handleChange}
+                    />
+                  </div>
 
-                  <div className=" mb-3 w-auto ">
-                    <p>Price</p>
-                    <div className="rounded-xl flex items-center border mt-1    w-56 ">
-                      <p className="bg-gray-100 w-auto py-2 px-4 border-r rounded-l-xl ">
-                        Ks
-                      </p>
+                  <div className=" mb-3 w-auto flex items-center gap-5 ">
+                    {/* Price */}
+                    <div>
+                      <p>Price</p>
+                      <div className="rounded-xl flex items-center border mt-1    w-56 ">
+                        <p className="bg-gray-100 w-auto py-2 px-4 border-r rounded-l-xl ">
+                          Ks
+                        </p>
+                        <input
+                          required
+                          className="focus:outline-none ps-2 "
+                          type="text"
+                          name="price"
+                          placeholder="0.00"
+                          value={formData.price}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Discount */}
+                    <div className="  ">
+                      <p>Discount Percentage</p>
                       <input
-                        required
-                        className="focus:outline-none ps-2 "
-                        type="text"
-                        name="price"
-                        placeholder="0.00"
-                        value={formData.price}
+                        className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
+                        type="number"
+                        name="discountPercentage"
+                        placeholder="0"
+                        value={formData.discountPercentage}
                         onChange={handleChange}
                       />
                     </div>
@@ -266,6 +301,8 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
                   <input
                     ref={imageRef}
                     className=" hidden "
+                    required
+                    multiple
                     type="file"
                     name="images"
                     onChange={handleImagesChange}
@@ -284,21 +321,6 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
               }}
             >
               {/* Order Section  */}
-              <Grid item xl={4} sm={4} md={4} lg={4}>
-                {/* Discount */}
-                <div className=" mb-5 ">
-                  <p>Discount Percentage</p>
-                  <input
-                    className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
-                    type="number"
-                    name="discountPercentage"
-                    placeholder="0"
-                    value={formData.discountPercentage}
-                    onChange={handleChange}
-                  />
-                </div>
-              </Grid>
-
               <Grid item xl={4} sm={4} md={4} lg={4}>
                 {/* Instock */}
                 <div className=" mb-5 ">
@@ -329,28 +351,67 @@ const CreateFormComponent = ({ handleClose, checkCategory = false }) => {
                   />
                 </div>
               </Grid>
+
+              <Grid item xl={4} sm={4} md={4} lg={4}>
+                {/* Reorder Level */}
+                <div className=" mb-5 ">
+                  <p>Size ml</p>
+                  <input
+                    className="border p-2 mt-1 focus:outline-none w-full rounded-xl"
+                    type="text"
+                    name="size"
+                    placeholder=""
+                    value={formData.size}
+                    onChange={handleChange}
+                  />
+                </div>
+              </Grid>
             </Grid>
           )}
 
           {/* Category */}
           {!checkCategory && (
-            <FormControl className=" scroll-auto " fullWidth>
-              <label id="category-label">Category</label>
-              <Select
-                className=" scroll-auto "
-                sx={{ borderRadius: "15px" }}
-                labelId="category-label"
-                id="category-select"
-                value={formData.categoryId}
-                onChange={handleCategory}
-              >
-                {data?.data?.map((item) => (
-                  <MenuItem key={item._id} value={item._id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <FormControl className=" scroll-auto " fullWidth>
+                  <label id="category-label">Category</label>
+                  <Select
+                    className=" scroll-auto "
+                    sx={{ borderRadius: "15px" }}
+                    labelId="category-label"
+                    id="category-select"
+                    value={formData.categoryId}
+                    onChange={handleCategory}
+                  >
+                    {data?.data?.map((item) => (
+                      <MenuItem key={item._id} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormControl className=" scroll-auto " fullWidth>
+                  <label id="gender-label">Gender</label>
+                  <Select
+                    className=" scroll-auto "
+                    sx={{ borderRadius: "15px" }}
+                    labelId="gender-label"
+                    id="gender-select"
+                    value={formData.gender}
+                    onChange={handleGenderChange}
+                  >
+                    {genderList?.map((item, index) => (
+                      <MenuItem key={index} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           )}
 
           {/* Desccription */}

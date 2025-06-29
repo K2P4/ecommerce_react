@@ -35,10 +35,9 @@ const OrderInvoiceComponent = ({
         <div className="flex p-5  flex-col rounded-lg   bg-gray-50 w-full ">
           <div className="flex-1 overflow-y-auto px-4 sm:px-6">
             <div className="flex items-center justify-between">
-              <img
-                src="/logo-xpos.png"
-                className="size-full w-20  h-20 object-cover"
-              />
+              <p  className="text-lg font-semibold">
+                <span className="text-blue-600">X</span>PERFUMES
+              </p>
               <p className="text-lg font-medium text-gray-900">Invoice</p>
             </div>
 

@@ -14,7 +14,7 @@ const FormDataComponent = ({
         {label}
       </label>
       <input
-        className="  text-gray-800   focus:outline-gray-400 w-full focus:ring-0 border p-2 rounded-lg mb-0  focus:border-0  "
+        className="  text-gray-800 focus:ring-blue-500 focus:outline-none focus:ring-1   w-full  border p-2 rounded-lg mb-0  focus:border-0  "
         type={type}
         required
         onChange={onChange}
