@@ -137,12 +137,13 @@ const CartPage = () => {
                 Shipping and taxes calculated at checkout.
               </p>
               <div className="mt-6">
-                <a
-                  href="/products/checkout"
+                 
+                <Link
+                  to="/products/checkout"
                   className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 duration-500 transition-all px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-blue-700"
                 >
                   Checkout
-                </a>
+                </Link>
               </div>
               <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                 <p>
