@@ -157,7 +157,7 @@ const CartPage = () => {
         ) : (
           <div className="py-10 flex flex-col justify-center  items-center w-full  h-[500px] m-auto ">
             <img
-              src="../../public/empty-cart.png"
+              src="/empty-cart.png"
               className="w-xl m-auto  h-72  object-contain mb-0 "
             />
 

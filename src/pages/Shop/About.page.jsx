@@ -11,7 +11,7 @@ const AboutPage = () => {
     {
       name: "Myat Poe Eain",
       role: "Finance & Operation Leader",
-      image: "/public/team/mye.jpg",
+      image: "/team/mye.jpg",
       socials: {
         facebook: "#",
         linkedin: "#",
@@ -21,7 +21,7 @@ const AboutPage = () => {
     {
       name: "Phyo Thura",
       role: "CEO & Fullstack Developer",
-      image: "/public/team/pty.jpg",
+      image: "/team/pty.jpg",
       socials: {
         facebook:
           "https://www.facebook.com/profile.php?id=100077023871140&mibextid=LQQJ4d",
