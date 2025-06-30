@@ -46,7 +46,7 @@ const MainComponent = () => {
   };
 
   return (
-    <section className="relative bg-[url('/banner2.jpg')] bg-cover bg-center w-full mx-auto h-screen overflow-hidden bg-white">
+    <section className="relative bg-[url('/banner2.jpg')] bg-cover bg-center w-full mx-auto min-h-[100dvh]   lg:h-screen overflow-hidden bg-white">
       <div className="absolute inset-0">
         <div className="absolute inset-0  scale-110 transition-transform duration-[10s] ease-out" />
 
@@ -159,7 +159,7 @@ const MainComponent = () => {
               </div>
             </div>
 
-            {/* Right Content - Feature Cards */}
+            {/* Feature Cards */}
             <div className="lg:col-span-5 space-y-6">
               <div
                 className={`transform transition-all duration-1000 delay-300 ${
@@ -168,7 +168,7 @@ const MainComponent = () => {
                     : "translate-x-12 opacity-0"
                 }`}
               >
-                {/* Feature Cards */}
+             
                 <div className="space-y-4">
                   <div className="group bg-white/80 hover:cursor-pointer backdrop-blur-xl border border-gray-200 rounded-3xl p-5 transition-all duration-500 hover:bg-white hover:border-gray-300 hover:scale-105 hover:shadow-2xl">
                     <div className="flex items-center gap-6">
@@ -241,28 +241,7 @@ const MainComponent = () => {
         </div>
       </div>
 
-      {/* animation  */}
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(180deg);
-          }
-        }
-
-        @keyframes gradient {
-          0%,
-          100% {
-            transform: rotate(0deg) scale(1);
-          }
-          50% {
-            transform: rotate(180deg) scale(1.1);
-          }
-        }
-      `}</style>
+  
     </section>
   );
 };

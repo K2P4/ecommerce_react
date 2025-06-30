@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Box,
   Snackbar,
   Alert,
   Badge,
@@ -49,6 +50,7 @@ const NavComponent = () => {
     localStorage.removeItem("token");
     setLogout(true);
     setSnack(true);
+    setMobileOpen(false);
     setTimeout(() => navigate("/"), 1500);
   };
 
@@ -163,10 +165,7 @@ const NavComponent = () => {
                 {" "}
                 <ShoppingBagOutlined /> Orders{" "}
               </MenuItem>
-              {/* <MenuItem component={Link} to="/profile">
-                {" "}
-                <PersonOutlineOutlined /> Profile{" "}
-              </MenuItem> */}
+
               <MenuItem onClick={handleLogout}>
                 {" "}
                 <ExitToAppOutlined /> Logout{" "}
@@ -187,7 +186,7 @@ const NavComponent = () => {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
       >
-        <List sx={{ width: 250 }}>
+        <List sx={{ fontFamily: "Poppins, sans-serif", width: 250 }}>
           <ListItem disablePadding>
             <ListItemButton
               component={Link}
@@ -197,7 +196,8 @@ const NavComponent = () => {
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <p>Home</p>
+             
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -209,7 +209,7 @@ const NavComponent = () => {
               <ListItemIcon>
                 <ShoppingBagOutlined />
               </ListItemIcon>
-              <ListItemText primary="Products" />
+                <p>Products</p>
             </ListItemButton>
           </ListItem>
           <Divider />
@@ -223,7 +223,7 @@ const NavComponent = () => {
                     className="w-10 h-10 rounded-md object-cover"
                   />
                 </ListItemIcon>
-                <ListItemText primary={cat.name} />
+                      <p>{cat.name}</p>
               </ListItemButton>
             </ListItem>
           ))}
@@ -237,7 +237,7 @@ const NavComponent = () => {
               <ListItemIcon>
                 <Info />
               </ListItemIcon>
-              <ListItemText primary="About Us" />
+                      <p>About Us</p>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -249,7 +249,29 @@ const NavComponent = () => {
               <ListItemIcon>
                 <ContactPage />
               </ListItemIcon>
-              <ListItemText primary="Contact" />
+                    <p>Contact</p>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/order"
+              onClick={() => setMobileOpen(false)}
+            >
+              <ListItemIcon>
+                <ShoppingBagOutlined />
+              </ListItemIcon>
+                   <p>Order</p>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton component={Link} onClick={handleLogout}>
+              <ListItemIcon>
+                <ExitToAppOutlined />
+              </ListItemIcon>
+                     <p>Log Out</p>
             </ListItemButton>
           </ListItem>
         </List>
